@@ -3,1433 +3,674 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jadwal Gym 50 Maalmood</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<title>150-Day Gym Transformation</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --bg2: #0f0f1a;
-    --bg3: #141428;
-    --card: #12121e;
-    --card2: #1a1a2e;
-    --accent: #ff4500;
-    --accent2: #ff6b35;
-    --gold: #ffd700;
-    --green: #00ff88;
-    --blue: #00bfff;
-    --purple: #9d4edd;
-    --text: #f0f0f0;
-    --muted: #888;
-    --border: rgba(255,69,0,0.2);
-  }
-
-  * { margin:0; padding:0; box-sizing:border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Exo 2', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* Animated grid background */
-  body::before {
-    content:'';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,69,0,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,69,0,0.04) 1px, transparent 1px);
-    background-size: 50px 50px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .hero {
-    position: relative;
-    text-align: center;
-    padding: 60px 20px 40px;
-    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,69,0,0.15) 0%, transparent 70%);
-    border-bottom: 1px solid var(--border);
-    z-index: 1;
-  }
-
-  .hero-badge {
-    display: inline-block;
-    background: var(--accent);
-    color: white;
-    font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 3px;
-    font-size: 13px;
-    padding: 5px 20px;
-    border-radius: 2px;
-    margin-bottom: 16px;
-  }
-
-  .hero h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(48px, 8vw, 96px);
-    letter-spacing: 6px;
-    line-height: 1;
-    background: linear-gradient(135deg, #ff4500, #ffd700, #ff6b35);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: none;
-  }
-
-  .hero-sub {
-    font-size: 16px;
-    color: var(--muted);
-    margin-top: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-weight: 300;
-  }
-
-  .stats-bar {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-top: 30px;
-    flex-wrap: wrap;
-  }
-
-  .stat-item {
-    text-align: center;
-  }
-
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    color: var(--accent);
-    letter-spacing: 2px;
-  }
-
-  .stat-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-
-  /* Progress tracker */
-  .progress-section {
-    position: relative;
-    z-index: 1;
-    padding: 30px 20px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .progress-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
-
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 4px;
-    color: var(--accent);
-  }
-
-  .progress-bar-outer {
-    height: 8px;
-    background: var(--card2);
-    border-radius: 4px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
-
-  .progress-bar-inner {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--gold));
-    border-radius: 4px;
-    transition: width 0.6s ease;
-  }
-
-  .progress-dots {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 16px;
-  }
-
-  .dot {
-    width: 28px;
-    height: 28px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 9px;
-    font-weight: 700;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'Rajdhani', sans-serif;
-  }
-
-  .dot:hover { border-color: var(--accent); color: var(--accent); transform: scale(1.1); }
-  .dot.done { background: var(--accent); border-color: var(--accent); color: white; }
-  .dot.today { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 10px rgba(255,215,0,0.4); }
-  .dot.rest { background: var(--bg3); border-color: var(--purple); color: var(--purple); }
-
-  /* Week filters */
-  .filters {
-    position: relative;
-    z-index: 1;
-    padding: 0 20px 20px;
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .filter-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-right: 5px;
-  }
-
-  .filter-btn {
-    padding: 6px 16px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    color: var(--muted);
-    border-radius: 3px;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .filter-btn:hover, .filter-btn.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: white;
-  }
-
-  /* Days grid */
-  .days-container {
-    position: relative;
-    z-index: 1;
-    padding: 0 20px 60px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .week-section {
-    margin-bottom: 40px;
-  }
-
-  .week-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .week-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    color: var(--accent);
-    letter-spacing: 3px;
-    line-height: 1;
-  }
-
-  .week-info {
-    flex: 1;
-  }
-
-  .week-name {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  .week-desc {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  .week-intensity {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-  }
-
-  .intensity-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--border);
-  }
-
-  .intensity-dot.filled { background: var(--accent); }
-
-  .days-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 16px;
-  }
-
-  .day-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.3s;
-    position: relative;
-  }
-
-  .day-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(255,69,0,0.15);
-  }
-
-  .day-card.rest-day {
-    border-color: rgba(157,78,221,0.3);
-    background: linear-gradient(135deg, var(--card), rgba(157,78,221,0.05));
-  }
-
-  .day-card.completed {
-    border-color: rgba(0,255,136,0.3);
-  }
-
-  .day-card.completed::after {
-    content: '✓';
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 24px;
-    height: 24px;
-    background: var(--green);
-    color: #000;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 900;
-  }
-
-  .day-header {
-    padding: 14px 16px 12px;
-    background: linear-gradient(135deg, rgba(255,69,0,0.08), transparent);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .day-number {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 40px;
-    color: var(--accent);
-    line-height: 1;
-    letter-spacing: 2px;
-    min-width: 52px;
-  }
-
-  .day-header-info { flex: 1; }
-
-  .day-name {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--text);
-  }
-
-  .day-focus {
-    font-size: 11px;
-    color: var(--accent2);
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
-
-  .day-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-
-  .tag {
-    padding: 2px 8px;
-    border-radius: 2px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-family: 'Rajdhani', sans-serif;
-  }
-
-  .tag-hiit { background: rgba(255,69,0,0.2); color: var(--accent); border: 1px solid rgba(255,69,0,0.3); }
-  .tag-strength { background: rgba(0,191,255,0.1); color: var(--blue); border: 1px solid rgba(0,191,255,0.3); }
-  .tag-cardio { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.3); }
-  .tag-rest { background: rgba(157,78,221,0.1); color: var(--purple); border: 1px solid rgba(157,78,221,0.3); }
-  .tag-core { background: rgba(255,215,0,0.1); color: var(--gold); border: 1px solid rgba(255,215,0,0.3); }
-
-  .day-body { padding: 14px 16px; }
-
-  .exercises-list { list-style: none; }
-
-  .exercise-item {
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
-
-  .exercise-item:last-child { border-bottom: none; }
-
-  .ex-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    flex-shrink: 0;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-  }
-
-  .ex-details { flex: 1; min-width: 0; }
-
-  .ex-name {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: 0.5px;
-  }
-
-  .ex-params {
-    font-size: 12px;
-    color: var(--accent2);
-    font-weight: 600;
-    margin-top: 1px;
-  }
-
-  .ex-muscle {
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 2px;
-    line-height: 1.4;
-  }
-
-  .ex-how {
-    font-size: 10px;
-    color: var(--blue);
-    margin-top: 3px;
-    line-height: 1.4;
-    font-style: italic;
-  }
-
-  .ex-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    margin-top: 5px;
-    padding: 3px 10px;
-    background: rgba(255,69,0,0.1);
-    border: 1px solid rgba(255,69,0,0.3);
-    border-radius: 3px;
-    color: var(--accent);
-    font-size: 10px;
-    font-weight: 700;
-    text-decoration: none;
-    letter-spacing: 1px;
-    font-family: 'Rajdhani', sans-serif;
-    transition: all 0.2s;
-    text-transform: uppercase;
-  }
-
-  .ex-link:hover {
-    background: var(--accent);
-    color: white;
-  }
-
-  .rest-card-body {
-    padding: 24px 16px;
-    text-align: center;
-  }
-
-  .rest-icon { font-size: 40px; margin-bottom: 12px; }
-
-  .rest-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px;
-    letter-spacing: 4px;
-    color: var(--purple);
-  }
-
-  .rest-desc {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 8px;
-    line-height: 1.6;
-  }
-
-  .rest-tips {
-    display: flex;
-    gap: 8px;
-    margin-top: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .rest-tip {
-    padding: 4px 12px;
-    background: rgba(157,78,221,0.1);
-    border: 1px solid rgba(157,78,221,0.3);
-    border-radius: 20px;
-    font-size: 11px;
-    color: var(--purple);
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 600;
-  }
-
-  .complete-btn {
-    width: 100%;
-    padding: 10px;
-    margin-top: 12px;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--muted);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .complete-btn:hover {
-    border-color: var(--green);
-    color: var(--green);
-    background: rgba(0,255,136,0.05);
-  }
-
-  .complete-btn.done {
-    border-color: var(--green);
-    background: rgba(0,255,136,0.1);
-    color: var(--green);
-  }
-
-  .day-duration {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    background: var(--bg3);
-    border-top: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--muted);
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
-
-  .duration-icon { font-size: 13px; }
-
-  /* Collapsible */
-  .collapse-btn {
-    background: none;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    font-size: 18px;
-    padding: 4px;
-    transition: transform 0.2s;
-    flex-shrink: 0;
-  }
-
-  .collapse-btn.open { transform: rotate(180deg); color: var(--accent); }
-
-  .collapsible { display: none; }
-  .collapsible.open { display: block; }
-
-  /* Legend */
-  .legend {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    padding: 0 20px 20px;
-    max-width: 1400px;
-    margin: 0 auto;
-    align-items: center;
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: var(--muted);
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
-
-  .legend-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
-  }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
-
-  @media (max-width: 600px) {
-    .days-grid { grid-template-columns: 1fr; }
-    .stats-bar { gap: 20px; }
-  }
+:root{
+  --fire:#FF4500;--fire2:#FF6B00;--gold:#FFB800;
+  --dark:#0A0A0A;--dark2:#111;--dark3:#1A1A1A;--dark4:#222;
+  --text:#F0F0F0;--text2:#AAAAAA;--green:#00E676;--blue:#00B4FF;--red:#FF1744;
+  --card-bg:#161616;--border:#2A2A2A;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,10,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--fire);letter-spacing:2px;white-space:nowrap;}
+.nav-links{display:flex;gap:3px;flex-wrap:wrap;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;border-radius:4px;transition:all .2s;cursor:pointer;}
+.nav-links a:hover,.nav-links a.active{color:var(--fire);background:rgba(255,69,0,.12);}
+.page{display:none;padding-top:66px;min-height:100vh;}
+.page.active{display:block;}
+.section{padding:44px 18px;max-width:1200px;margin:0 auto;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,5vw,64px);letter-spacing:4px;margin-bottom:6px;}
+.section-title span{color:var(--fire);}
+.section-sub{color:var(--text2);font-size:13px;margin-bottom:28px;letter-spacing:1px;}
+.divider{height:1px;background:var(--border);margin:32px 0;}
+
+/* HERO */
+.hero{min-height:calc(100vh - 56px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 18px;background:radial-gradient(ellipse at 50% 0%,rgba(255,69,0,.14) 0%,transparent 60%);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(255,69,0,.04) 49px,rgba(255,69,0,.04) 50px),repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(255,69,0,.04) 49px,rgba(255,69,0,.04) 50px);}
+.hero-badge{background:rgba(255,69,0,.15);border:1px solid rgba(255,69,0,.4);color:var(--fire);font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:5px 16px;border-radius:100px;margin-bottom:20px;font-weight:700;position:relative;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,12vw,128px);line-height:.9;letter-spacing:4px;margin-bottom:8px;position:relative;}
+.hero h1 span{color:var(--fire);}
+.hero-subtitle{font-family:'Barlow Condensed',sans-serif;font-size:clamp(16px,3vw,30px);font-weight:600;color:var(--gold);letter-spacing:5px;text-transform:uppercase;margin-bottom:28px;position:relative;}
+.hero-stats{display:flex;gap:36px;margin-bottom:36px;flex-wrap:wrap;justify-content:center;position:relative;}
+.hero-stat .num{font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--fire);line-height:1;display:block;}
+.hero-stat .lbl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:2px;}
+.btn-primary{background:var(--fire);color:#fff;border:none;padding:13px 32px;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:4px;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s;font-family:'Barlow',sans-serif;position:relative;}
+.btn-primary:hover{background:var(--fire2);transform:translateY(-2px);}
+
+/* CARDS */
+.grid-auto{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:22px;transition:transform .2s,border-color .2s;}
+.card:hover{transform:translateY(-3px);border-color:var(--fire);}
+.card-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:2px;margin-bottom:10px;}
+.ct-blue{background:rgba(0,180,255,.15);color:var(--blue);}
+.ct-gold{background:rgba(255,184,0,.15);color:var(--gold);}
+.ct-fire{background:rgba(255,69,0,.15);color:var(--fire);}
+.ct-green{background:rgba(0,230,118,.15);color:var(--green);}
+.ct-red{background:rgba(255,23,68,.15);color:var(--red);}
+.card-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;margin-bottom:6px;}
+.card-sub{font-size:11px;color:var(--text2);margin-bottom:10px;}
+.card-body{font-size:13px;color:var(--text);line-height:1.7;}
+.phase-stripe{position:absolute;top:0;left:0;right:0;height:3px;}
+
+/* WEEK SELECTOR */
+.week-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:20px;}
+.week-tab{padding:6px 13px;background:var(--dark3);border:1px solid var(--border);color:var(--text2);border-radius:4px;cursor:pointer;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all .2s;font-family:'Barlow',sans-serif;}
+.week-tab:hover,.week-tab.active{background:var(--fire);border-color:var(--fire);color:#fff;}
+.week-panel{display:none;}
+.week-panel.active{display:block;}
+
+/* DAY CARDS */
+.days-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;}
+.day-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color .2s;}
+.day-card.completed{border-color:rgba(0,230,118,.4);background:rgba(0,230,118,.02);}
+.day-card.rest-card{opacity:.65;}
+.day-hdr{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.day-hdr-l{display:flex;align-items:center;gap:8px;}
+.day-num{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--fire);line-height:1;min-width:32px;}
+.d-name{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.d-sub{font-size:10px;color:var(--text2);}
+.type-badge{font-size:9px;font-weight:700;letter-spacing:1px;padding:3px 9px;border-radius:20px;text-transform:uppercase;}
+.tb-rest{background:rgba(170,170,170,.1);color:var(--text2);}
+.tb-push{background:rgba(255,69,0,.15);color:var(--fire);}
+.tb-pull{background:rgba(0,180,255,.15);color:var(--blue);}
+.tb-legs{background:rgba(0,230,118,.15);color:var(--green);}
+.tb-hiit{background:rgba(255,23,68,.15);color:var(--red);}
+.tb-full{background:rgba(255,184,0,.15);color:var(--gold);}
+.day-body{padding:12px 14px;}
+
+/* EXERCISE ROW */
+.ex-row{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.ex-row:last-child{border-bottom:none;}
+.ex-chk{width:18px;height:18px;border:2px solid var(--border);border-radius:3px;cursor:pointer;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .2s;background:var(--dark3);}
+.ex-chk.done{background:var(--green);border-color:var(--green);}
+.ex-chk.done::after{content:'✓';font-size:11px;color:#000;font-weight:900;}
+.ex-info{flex:1;}
+.ex-name{font-size:12px;font-weight:600;margin-bottom:2px;}
+.ex-sets{font-size:11px;color:var(--text2);}
+.ex-wt{font-size:11px;color:var(--gold);font-weight:600;}
+.ex-yt{font-size:10px;color:var(--blue);text-decoration:none;margin-top:2px;display:inline-block;}
+.ex-yt:hover{color:var(--fire);}
+
+/* CARDIO BLOCK */
+.cardio-blk{background:rgba(255,23,68,.06);border:1px solid rgba(255,23,68,.2);border-radius:6px;padding:11px 13px;margin-top:10px;}
+.cardio-lbl{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--red);text-transform:uppercase;margin-bottom:5px;}
+.cardio-name{font-size:13px;font-weight:700;margin-bottom:3px;}
+.cardio-det{font-size:11px;color:var(--text2);margin-bottom:6px;}
+.cardio-row{display:flex;align-items:center;gap:7px;}
+
+/* DONE BUTTON */
+.done-btn{width:100%;padding:9px;background:var(--dark3);border:1px solid var(--border);color:var(--text2);border-radius:4px;cursor:pointer;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all .2s;font-family:'Barlow',sans-serif;margin-top:10px;}
+.done-btn:hover{background:var(--fire);border-color:var(--fire);color:#fff;}
+.done-btn.done{background:rgba(0,230,118,.12);border-color:var(--green);color:var(--green);}
+
+/* PROGRESS */
+.prog-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:28px;}
+.prog-box{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;text-align:center;}
+.prog-box .val{font-family:'Bebas Neue',sans-serif;font-size:44px;line-height:1;}
+.prog-box .lbl{font-size:10px;color:var(--text2);letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+.big-bar-wrap{background:var(--dark3);border-radius:8px;height:18px;overflow:hidden;margin-bottom:28px;}
+.big-bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--fire),var(--gold));transition:width .8s ease;}
+
+/* DIET */
+.diet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
+.diet-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:20px;}
+.diet-time{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--fire);text-transform:uppercase;margin-bottom:5px;}
+.diet-meal{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;margin-bottom:9px;}
+.diet-list{list-style:none;}
+.diet-list li{padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:var(--text2);display:flex;justify-content:space-between;}
+.diet-list li span{color:var(--gold);font-weight:600;}
+.macro-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px;}
+.mac{padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;}
+.mac.p{background:rgba(0,180,255,.1);color:var(--blue);}
+.mac.c{background:rgba(255,184,0,.1);color:var(--gold);}
+.mac.f{background:rgba(255,23,68,.1);color:var(--red);}
+.mac.k{background:rgba(0,230,118,.1);color:var(--green);}
+
+/* TIPS */
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;}
+.tip-card{background:var(--card-bg);border:1px solid var(--border);border-left:3px solid var(--fire);border-radius:0 8px 8px 0;padding:16px 18px;}
+.tip-icon{font-size:20px;margin-bottom:5px;}
+.tip-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;margin-bottom:3px;}
+.tip-text{font-size:12px;color:var(--text2);line-height:1.6;}
+
+/* ACCORDION */
+.acc{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:8px;}
+.acc-h{padding:13px 16px;background:var(--card-bg);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;}
+.acc-h:hover{background:var(--dark3);}
+.acc-h .title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;}
+.acc-h .arrow{font-size:15px;transition:transform .2s;color:var(--text2);}
+.acc-h.open .arrow{transform:rotate(180deg);}
+.acc-body{display:none;padding:16px;background:var(--dark2);border-top:1px solid var(--border);}
+.acc-body.open{display:block;}
+
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--dark2);}
+::-webkit-scrollbar-thumb{background:var(--dark4);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--fire);}
+@media(max-width:600px){.nav-links a{padding:4px 7px;font-size:10px;}.hero-stats{gap:18px;}.section{padding:30px 12px;}}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-badge">💪 TABABAR BUUXA</div>
-  <h1>50 MAALMOOD</h1>
-  <div class="hero-sub">Calool Jar · Dufan Gub · Murqo Samee — Jirka Oo Dhan</div>
-  <div class="stats-bar">
-    <div class="stat-item">
-      <div class="stat-num">50</div>
-      <div class="stat-label">Maalmood</div>
+<nav>
+  <div class="nav-logo">💪 150 DAYS GYM</div>
+  <div class="nav-links">
+    <a class="active" onclick="showPage('home',this)">Home</a>
+    <a onclick="showPage('tracker',this)">📋 Tracker</a>
+    <a onclick="showPage('progress',this)">📊 Progress</a>
+    <a onclick="showPage('diet',this)">🥗 Cunto</a>
+    <a onclick="showPage('tips',this)">💡 Talo</a>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-badge">🔥 150-Day Body Transformation Program</div>
+    <h1><span>150</span><br>MAALMOOD</h1>
+    <div class="hero-subtitle">Calool Jar · Dufan Gub · Murqo Dhis</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">150</span><span class="lbl">Maalmood</span></div>
+      <div class="hero-stat"><span class="num">5</span><span class="lbl">Maalin/Isb</span></div>
+      <div class="hero-stat"><span class="num">7</span><span class="lbl">Jimicsi/Maalin</span></div>
+      <div class="hero-stat"><span class="num">2h</span><span class="lbl">Gym/Maalin</span></div>
     </div>
-    <div class="stat-item">
-      <div class="stat-num">7</div>
-      <div class="stat-label">Isbuuc</div>
+    <a class="btn-primary" onclick="showPage('tracker',document.querySelectorAll('.nav-links a')[1])">Bilow Tracker →</a>
+  </div>
+
+  <div class="section">
+    <div class="section-title">NIDAAMKA <span>TODOBAADKA</span></div>
+    <p class="section-sub">Isniin–Jimce = Gym &nbsp;|&nbsp; Sabti + Axad = Fasax</p>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;max-width:560px;margin-bottom:32px;">
+      
+<div style="background:rgba(255,69,0,.08);border:1px solid rgba(255,69,0,.3);border-radius:6px;padding:10px 4px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--fire);">Isn</div><div style="font-size:9px;color:var(--text2);letter-spacing:1px;">GYM</div></div>
+<div style="background:rgba(255,69,0,.08);border:1px solid rgba(255,69,0,.3);border-radius:6px;padding:10px 4px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--fire);">Tal</div><div style="font-size:9px;color:var(--text2);letter-spacing:1px;">GYM</div></div>
+<div style="background:rgba(255,69,0,.08);border:1px solid rgba(255,69,0,.3);border-radius:6px;padding:10px 4px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--fire);">Arb</div><div style="font-size:9px;color:var(--text2);letter-spacing:1px;">GYM</div></div>
+<div style="background:rgba(255,69,0,.08);border:1px solid rgba(255,69,0,.3);border-radius:6px;padding:10px 4px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--fire);">Kha</div><div style="font-size:9px;color:var(--text2);letter-spacing:1px;">GYM</div></div>
+<div style="background:rgba(255,69,0,.08);border:1px solid rgba(255,69,0,.3);border-radius:6px;padding:10px 4px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--fire);">Jim</div><div style="font-size:9px;color:var(--text2);letter-spacing:1px;">GYM</div></div>
+<div style="background:rgba(170,170,170,.05);border:1px solid var(--border);border-radius:6px;padding:10px 4px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text2);">Sab</div><div style="font-size:9px;color:var(--text2);letter-spacing:1px;">FASAX</div></div>
+<div style="background:rgba(170,170,170,.05);border:1px solid var(--border);border-radius:6px;padding:10px 4px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text2);">Axd</div><div style="font-size:9px;color:var(--text2);letter-spacing:1px;">FASAX</div></div>
+
     </div>
-    <div class="stat-item">
-      <div class="stat-num">2h</div>
-      <div class="stat-label">Maalin kasta</div>
+
+    <div class="section-title">MARXALADAHA <span>5-TA</span></div>
+    <p class="section-sub">Tartiib ah uga koraysa heer hoose ilaa heer sare</p>
+    <div class="grid-auto">
+      
+<div class="card"><span class="card-tag ct-blue">Marxaladda 1 · Maalin 1–30</span><div class="card-title">AASAASKA</div><div class="card-body">Culeyska hoose bilaaw. Form-ka la horumariyo. Dufanka bilaaw in lagu gubo. Jirka u diyaargarow.</div></div>
+<div class="card"><span class="card-tag ct-gold">Marxaladda 2 · Maalin 31–60</span><div class="card-title">XOOGGA KOBCIN</div><div class="card-body">2.5kg kull isbuuc ku dar. Supersets bilaaw. Murqadu si weyn muuqato.</div></div>
+<div class="card"><span class="card-tag ct-fire">Marxaladda 3 · Maalin 61–90</span><div class="card-title">KULAYLKA</div><div class="card-body">HIIT xooji. Six-pack bilaabmaya. Dufanka si dhakhso ah u gub.</div></div>
+<div class="card"><span class="card-tag ct-green">Marxaladda 4 · Maalin 91–120</span><div class="card-title">HEERKA SARE</div><div class="card-body">Heerka ugu sareeya gaaro. Six-pack muuqanayo. V-Shape jirka.</div></div>
+<div class="card"><span class="card-tag ct-red">Marxaladda 5 · Maalin 121–150</span><div class="card-title">DHAMAYSIRKA 🔥</div><div class="card-body">Natiijada ugu dambaysa. Jirka dhamaystan. Isbadal buuxa la gaadhay!</div></div>
+
     </div>
-    <div class="stat-item">
-      <div class="stat-num" id="completedCount">0</div>
-      <div class="stat-label">La Dhammeeyay</div>
+
+    <div class="divider"></div>
+    <div class="section-title">TARGETS <span>SODON MAALMOODLAHA</span></div>
+    <div class="grid-auto">
+      
+<div class="card"><span class="card-tag ct-blue">Marxaladda 1 · Maalin 1–30</span><div class="card-title">AASAASKA</div><div class="card-body">Culeyska hoose bilaaw. Form-ka la horumariyo. Dufanka bilaaw in lagu gubo. Jirka u diyaargarow.</div></div>
+<div class="card"><span class="card-tag ct-gold">Marxaladda 2 · Maalin 31–60</span><div class="card-title">XOOGGA KOBCIN</div><div class="card-body">2.5kg kull isbuuc ku dar. Supersets bilaaw. Murqadu si weyn muuqato.</div></div>
+<div class="card"><span class="card-tag ct-fire">Marxaladda 3 · Maalin 61–90</span><div class="card-title">KULAYLKA</div><div class="card-body">HIIT xooji. Six-pack bilaabmaya. Dufanka si dhakhso ah u gub.</div></div>
+<div class="card"><span class="card-tag ct-green">Marxaladda 4 · Maalin 91–120</span><div class="card-title">HEERKA SARE</div><div class="card-body">Heerka ugu sareeya gaaro. Six-pack muuqanayo. V-Shape jirka.</div></div>
+<div class="card"><span class="card-tag ct-red">Marxaladda 5 · Maalin 121–150</span><div class="card-title">DHAMAYSIRKA 🔥</div><div class="card-body">Natiijada ugu dambaysa. Jirka dhamaystan. Isbadal buuxa la gaadhay!</div></div>
+
     </div>
   </div>
 </div>
 
-<!-- Progress -->
-<div class="progress-section">
-  <div class="progress-header">
-    <div class="section-title">⚡ HORUMARKA</div>
-    <div style="font-family:'Rajdhani',sans-serif;font-size:13px;color:var(--muted)" id="progressText">0 / 50 Maalmood</div>
+<!-- TRACKER -->
+<div id="page-tracker" class="page">
+  <div class="section">
+    <div class="section-title">TRACKER <span>MAALINLAHA</span></div>
+    <p class="section-sub">Jimicsi kasta ✓ garee · Maalinta dhamaystir · Horumarka ka daawo</p>
+    <div class="week-tabs" id="weekTabs"></div>
+    <div id="weekPanels"></div>
   </div>
-  <div class="progress-bar-outer">
-    <div class="progress-bar-inner" id="progressBar" style="width:0%"></div>
+</div>
+
+<!-- PROGRESS -->
+<div id="page-progress" class="page">
+  <div class="section">
+    <div class="section-title">HORUMARKA <span>XAALADDA</span></div>
+    <p class="section-sub">Waxqabadkaaga oo dhan hal meel ka daawo</p>
+    <div class="prog-summary" id="progSummary"></div>
+    <div style="margin-bottom:6px;font-size:12px;color:var(--text2);">Guud ahaan horumarka (150 maalmood):</div>
+    <div class="big-bar-wrap"><div class="big-bar-fill" id="bigBar" style="width:0%"></div></div>
+
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:20px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;margin-bottom:14px;color:var(--gold);">📊 Marxaladaha Horumarka</div>
+      <div id="phaseProgress"></div>
+    </div>
+
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;margin-bottom:14px;color:var(--gold);">📅 Isbuucyada Horumarka</div>
+      <div id="weekGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;"></div>
+    </div>
   </div>
-  <div class="progress-dots" id="progressDots"></div>
 </div>
 
-<!-- Legend -->
-<div class="legend">
-  <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-family:'Rajdhani',sans-serif;font-weight:700;">Calaamadaha:</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div> La Dhammeeyay</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Maantay</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div> Nasasho</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--border)"></div> Soo Socda</div>
+<!-- DIET -->
+<div id="page-diet" class="page">
+  <div class="section">
+    <div class="section-title">DIET-KA <span>CUNTADA</span></div>
+    <p class="section-sub">Maalin kasta 6 wakht cunto — macros buuxa</p>
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:24px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;margin-bottom:12px;color:var(--gold);">📊 MACROS MAALIN KASTA</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;">
+        
+<div style="text-align:center;background:var(--dark3);border-radius:6px;padding:12px;"><div style="font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--blue);line-height:1;">180g</div><div style="font-size:9px;color:var(--text2);letter-spacing:2px;">PROTEIN</div></div>
+<div style="text-align:center;background:var(--dark3);border-radius:6px;padding:12px;"><div style="font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--gold);line-height:1;">200g</div><div style="font-size:9px;color:var(--text2);letter-spacing:2px;">CARBS</div></div>
+<div style="text-align:center;background:var(--dark3);border-radius:6px;padding:12px;"><div style="font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--red);line-height:1;">60g</div><div style="font-size:9px;color:var(--text2);letter-spacing:2px;">FAT</div></div>
+<div style="text-align:center;background:var(--dark3);border-radius:6px;padding:12px;"><div style="font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--green);line-height:1;">2000</div><div style="font-size:9px;color:var(--text2);letter-spacing:2px;">CALORIES</div></div>
+
+      </div>
+    </div>
+    <div class="diet-grid" id="dietGrid"></div>
+    <div class="divider"></div>
+    <div class="section-title">CUNTADA <span>LA FOGAADO</span></div>
+    <div class="tips-grid" id="avoidGrid"></div>
+    <div class="divider"></div>
+    <div class="section-title">BIYO <span>IYO NASASHO</span></div>
+    <div class="tips-grid" id="waterGrid"></div>
+  </div>
 </div>
 
-<!-- Filters -->
-<div class="filters">
-  <span class="filter-label">Fiiri:</span>
-  <button class="filter-btn active" onclick="filterWeek('all', this)">Dhamaan</button>
-  <button class="filter-btn" onclick="filterWeek(1, this)">Isbuuc 1</button>
-  <button class="filter-btn" onclick="filterWeek(2, this)">Isbuuc 2</button>
-  <button class="filter-btn" onclick="filterWeek(3, this)">Isbuuc 3</button>
-  <button class="filter-btn" onclick="filterWeek(4, this)">Isbuuc 4</button>
-  <button class="filter-btn" onclick="filterWeek(5, this)">Isbuuc 5</button>
-  <button class="filter-btn" onclick="filterWeek(6, this)">Isbuuc 6</button>
-  <button class="filter-btn" onclick="filterWeek(7, this)">Isbuuc 7</button>
+<!-- TIPS -->
+<div id="page-tips" class="page">
+  <div class="section">
+    <div class="section-title">TALOOYINKA <span>GUUSHA</span></div>
+    <div class="tips-grid" id="tipsGrid"></div>
+    <div class="divider"></div>
+    <div class="section-title">NIDAAMKA <span>MAALINLAHA</span></div>
+    <div id="routineAcc"></div>
+    <div class="divider"></div>
+    <div class="section-title">PROGRESSIVE <span>OVERLOAD</span></div>
+    <div id="overloadAcc"></div>
+  </div>
 </div>
-
-<!-- Days -->
-<div class="days-container" id="daysContainer"></div>
 
 <script>
-// ============================
-// DATA — 50 DAYS
-// ============================
-const weeks = [
-  {
-    week: 1, name: "AASAASKA", desc: "Xooji aasaaska — xoojinta qaab sahlan, culus dhexdhexaad ah",
-    intensity: 3, days: [
-      {
-        day:1, name:"Isniinta", focus:"XOOG SAARE + CALOOL", type:["strength","core"],
-        duration:"~110 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Chest Press Machine", params:"4 Set × 12 Rep · 40kg", muscle:"Laabta iyo garabka hore", how:"Fadhiso mashiinka, garabku ha dul dhignaado, gacmahai si buuxda oo tartibba hore uga saar dib u celi", link:"https://www.youtube.com/results?search_query=chest+press+machine+form"},
-          {icon:"🔝", name:"Lat Pulldown Machine", params:"4 Set × 12 Rep · 45kg", muscle:"Dhabarka ballaaran (Lats)", how:"Xidhxidha kor ka qabso, dhexda toosan, mashiinka oo hoos uga jid miciigta saree", link:"https://www.youtube.com/results?search_query=lat+pulldown+machine+form"},
-          {icon:"💪", name:"Shoulder Press Machine", params:"3 Set × 12 Rep · 30kg", muscle:"Garabka, saddexbarkadaha", how:"Garabku ha toos u fiiqan, gacmahai kor u qaad inta aadan kor ka gaadhsiin", link:"https://www.youtube.com/results?search_query=shoulder+press+machine+form"},
-          {icon:"🦵", name:"Leg Press Machine", params:"4 Set × 15 Rep · 80kg", muscle:"Lugaha hore (Quads), Hamstrings, Xididka", how:"Cagaha meesha dhexe, dubkha kor u qaad inta aadan toosnayn, si tartiib ah hoos u celi", link:"https://www.youtube.com/results?search_query=leg+press+machine+form"},
-          {icon:"🎯", name:"Cable Crunch (Mashiinka)", params:"4 Set × 20 Rep · 25kg", muscle:"Caloolaha sare", how:"Jilbaha dhig, mashiinka cable ah gacan ku qabso, caloolaha ku hoos jiid xoogga caloolaha oo ah mid la xasuusto", link:"https://www.youtube.com/results?search_query=cable+crunch+form"},
-          {icon:"🔄", name:"Seated Abdominal Machine", params:"3 Set × 20 Rep · 30kg", muscle:"Caloolaha hore", how:"Fadhiso, gacmahai dul dhig, caloolaha oo hoos u jiid", link:"https://www.youtube.com/results?search_query=seated+ab+crunch+machine"},
-          {icon:"❤️", name:"Treadmill HIIT", params:"20 daqiiqo · Dhakhso kala duwan", muscle:"Wadnaha + Dufanka", how:"1 daqiiqo orod dhakhso (8km/h), 1 daqiiqo biyaanso (4km/h) — ku celceli 10 goor", link:"https://www.youtube.com/results?search_query=treadmill+HIIT+20+minutes"}
-        ]
-      },
-      {
-        day:2, name:"Talaadada", focus:"LUGAHA + CALOOL HOOSE", type:["strength","core"],
-        duration:"~110 daqiiqo",
-        exercises:[
-          {icon:"🦵", name:"Hack Squat Machine", params:"4 Set × 12 Rep · 70kg", muscle:"Quads, Glutes, Hamstrings", how:"Cagaha dhexdooda leh, dhabkha toosan, dul u fadhiso tartibba inta aadan jilbaha gaadhsiin", link:"https://www.youtube.com/results?search_query=hack+squat+machine+form"},
-          {icon:"🦵", name:"Leg Extension Machine", params:"4 Set × 15 Rep · 40kg", muscle:"Quads — lugaha hore", how:"Cagaha ku hoos geli, xididigu ha taaban kursiga hoose, tartibba kor u qaad", link:"https://www.youtube.com/results?search_query=leg+extension+machine+form"},
-          {icon:"🦵", name:"Leg Curl Machine (Prone)", params:"4 Set × 12 Rep · 35kg", muscle:"Hamstrings — lugaha dambe", how:"Ku jiidala mashiinka, cagaha hoos galintiisa ku xidh, kol tartibba ku soo hoos jiid", link:"https://www.youtube.com/results?search_query=lying+leg+curl+machine+form"},
-          {icon:"🦶", name:"Standing Calf Raise Machine", params:"4 Set × 20 Rep · 60kg", muscle:"Xididka — Calves", how:"Fadhiista mashiinka, xididku ha soo garo, tartibba kor u jiid miciigta", link:"https://www.youtube.com/results?search_query=calf+raise+machine+form"},
-          {icon:"🎯", name:"Rotary Torso Machine", params:"4 Set × 20 Rep · 20kg (dhinac kasta)", muscle:"Caloolaha dhinacyada (Obliques)", how:"Fadhiso, jirkaa oo si tartiib ah oo xooggan dhinac u jiibi, dhinaca kalana sidaas", link:"https://www.youtube.com/results?search_query=rotary+torso+machine+form"},
-          {icon:"⬆️", name:"Back Extension Machine", params:"3 Set × 15 Rep · 25kg", muscle:"Dhabarka hoose (Erectors)", how:"Fadhiso, gacmahai laabka dul dhig, jirkaa hoos u jiid oo tartibba soo kac", link:"https://www.youtube.com/results?search_query=back+extension+machine+form"},
-          {icon:"🚴", name:"Stationary Bike HIIT", params:"20 daqiiqo", muscle:"Lugaha + Dufanka", how:"30 ilbiriqsi dhakhso, 60 ilbiriqsi tartiib — 13 goor", link:"https://www.youtube.com/results?search_query=stationary+bike+HIIT+20+minutes"}
-        ]
-      },
-      {
-        day:3, name:"Arbacada", focus:"LAABTA + GARABKA + CALOOL", type:["strength","core"],
-        duration:"~110 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Pec Deck Machine (Fly)", params:"4 Set × 12 Rep · 35kg", muscle:"Laabta dhexdeeda", how:"Fadhiso, gacmahai dul dhig, si wax badan u kala fidi oo tartibba isugu soo jiib", link:"https://www.youtube.com/results?search_query=pec+deck+fly+machine+form"},
-          {icon:"🏋️", name:"Cable Crossover Machine", params:"3 Set × 12 Rep · 15kg (dhinac kasta)", muscle:"Laabta hoose iyo dhexe", how:"Kaabado dhexda oo ah, gacmahai si tartiib ah oo dhexda hoos uga soo jiib", link:"https://www.youtube.com/results?search_query=cable+crossover+machine+form"},
-          {icon:"💪", name:"Lateral Raise Machine", params:"4 Set × 15 Rep · 15kg", muscle:"Garabka dhexe (Medial delt)", how:"Fadhiso, gacmahai dul dhig, tartibba dhinacyada u qaad xoogga garabka ah", link:"https://www.youtube.com/results?search_query=lateral+raise+machine+form"},
-          {icon:"💪", name:"Rear Delt Fly Machine", params:"3 Set × 15 Rep · 20kg", muscle:"Garabka dambe — muhiim u ah qaabaynta", how:"Gacmahai hore ula eeg, dhinac u qaad, tartibba hoos u celi", link:"https://www.youtube.com/results?search_query=rear+delt+fly+machine+form"},
-          {icon:"🎯", name:"Ab Coaster Machine", params:"4 Set × 15 Rep", muscle:"Caloolaha sare iyo hoose", how:"Jilbaha ku dhig, gacmahai ku qabso, caloolaha oo soo jiid jilbaha iyaga oo laaban", link:"https://www.youtube.com/results?search_query=ab+coaster+machine+form"},
-          {icon:"🎯", name:"Oblique Cable Twist", params:"3 Set × 20 Rep · 10kg", muscle:"Caloolaha dhinacyada", how:"Cable mashiinka dhinaca u taagan, gacmahai hore u qaad, jirkaa ku leexo kana fog mashiinka", link:"https://www.youtube.com/results?search_query=cable+oblique+twist"},
-          {icon:"❤️", name:"Elliptical Machine", params:"20 daqiiqo · Xoog kala duwan", muscle:"Jirka oo dhan + Dufanka", how:"2 daqiiqo sahlan, 1 daqiiqo adag (xoog badan) — 6-7 goor", link:"https://www.youtube.com/results?search_query=elliptical+HIIT+interval+workout"}
-        ]
-      },
-      {
-        day:4, name:"Khamiista", focus:"DHABARKA + GACMAHA XIGA + CALOOL", type:["strength","core"],
-        duration:"~110 daqiiqo",
-        exercises:[
-          {icon:"🔝", name:"Seated Cable Row Machine", params:"4 Set × 12 Rep · 50kg", muscle:"Dhabarka dhexe (Rhomboids, Lats)", how:"Fadhiso cagaha dul dhig, gacmahai si tartiib ah laabka soo u jiib, dhabarka toosan", link:"https://www.youtube.com/results?search_query=seated+cable+row+machine+form"},
-          {icon:"🔝", name:"T-Bar Row Machine", params:"4 Set × 10 Rep · 40kg", muscle:"Dhabarka ballaaran", how:"Gunta gacan ku qabso, dhabarka toosan, gunta laabka soo u jiib", link:"https://www.youtube.com/results?search_query=t-bar+row+machine+form"},
-          {icon:"💪", name:"Preacher Curl Machine", params:"4 Set × 12 Rep · 25kg", muscle:"Bicep — gacmaha hore", how:"Gacantu taabato meesha, kor u qaad tartibba, caloolaha kor uga qaadista ka fogow", link:"https://www.youtube.com/results?search_query=preacher+curl+machine+form"},
-          {icon:"💪", name:"Tricep Pushdown Machine", params:"4 Set × 15 Rep · 30kg", muscle:"Tricep — gacmaha dambe", how:"Toosan, gacmahai hoos u qaad oo toosta ilaali, kol tartibba soo kac", link:"https://www.youtube.com/results?search_query=tricep+pushdown+cable+machine"},
-          {icon:"🎯", name:"Cable Crunch Kneel", params:"4 Set × 20 Rep · 30kg", muscle:"Caloolaha", how:"Jilbaha dhig, cable kor ka qabso, caloolaha soo jiid, dusha kor aga qaadista ka fogow", link:"https://www.youtube.com/results?search_query=cable+crunch+kneeling+form"},
-          {icon:"🎯", name:"Roman Chair Leg Raise Machine", params:"4 Set × 15 Rep", muscle:"Caloolaha hoose", how:"Gacmahai dul dhig, cagaha toosta mar tartibba kor u qaad", link:"https://www.youtube.com/results?search_query=roman+chair+leg+raise+form"},
-          {icon:"❤️", name:"Rowing Machine HIIT", params:"20 daqiiqo", muscle:"Jirka oo dhan + Dufanka", how:"500m dhakhso, 200m nasasho — celceli", link:"https://www.youtube.com/results?search_query=rowing+machine+HIIT+workout"}
-        ]
-      },
-      {
-        day:5, name:"Jimcaha", focus:"LUGAHA BUUXDA + CALOOL", type:["strength","core"],
-        duration:"~110 daqiiqo",
-        exercises:[
-          {icon:"🦵", name:"Smith Machine Squat", params:"4 Set × 12 Rep · 60kg", muscle:"Quads, Glutes, Hamstrings, Core", how:"Mashiinka smith, cagaha dhexddooda, dhabkha toosan, hoos u jiido inta jilbaha gaadhsiin", link:"https://www.youtube.com/results?search_query=smith+machine+squat+form"},
-          {icon:"🦵", name:"Hip Abductor Machine", params:"4 Set × 15 Rep · 45kg", muscle:"Lugaha dhinacyada (Glute Med, Abductors)", how:"Fadhiso, cagaha kala fidi xoogga dhinacyada, tartibba isugu soo jiib", link:"https://www.youtube.com/results?search_query=hip+abductor+machine+form"},
-          {icon:"🦵", name:"Hip Adductor Machine", params:"4 Set × 15 Rep · 40kg", muscle:"Lugaha dhexdooda (Adductors)", how:"Cagaha kala fidi oo kor u dhig, xoogga dhexda isugu soo jiib", link:"https://www.youtube.com/results?search_query=hip+adductor+machine+form"},
-          {icon:"🦵", name:"Glute Kickback Machine", params:"4 Set × 12 Rep · 30kg (cag kasta)", muscle:"Glutes — gundaha", how:"Mashiinka ku taagan, cagta hoos u jiid oo tartibba hore u qaad", link:"https://www.youtube.com/results?search_query=glute+kickback+machine+form"},
-          {icon:"🎯", name:"Decline Crunch Machine", params:"4 Set × 20 Rep", muscle:"Caloolaha sare oo dhan", how:"Lugaha xidh, gacmahai madaxa dul dhig, caloolaha oo tartibba hoos u jiid", link:"https://www.youtube.com/results?search_query=decline+crunch+machine+form"},
-          {icon:"🎯", name:"Seated Oblique Machine", params:"3 Set × 20 Rep · 25kg", muscle:"Caloolaha dhinacyada", how:"Dhinac u jiib xoogga caloolaha oo ah, tartibba soo kac", link:"https://www.youtube.com/results?search_query=seated+oblique+machine"},
-          {icon:"❤️", name:"Stairmaster Machine", params:"20 daqiiqo · Xoog dhexdhexaad", muscle:"Lugaha + Dufanka", how:"Tallaabada joogso xoogga hoose, tallaabooyinku ha samaystaan si tartiib ah", link:"https://www.youtube.com/results?search_query=stairmaster+HIIT+fat+burn"}
-        ]
-      },
-      {
-        day:6, name:"Sabti", focus:"LAAB + GACMAHA + CALOOL", type:["strength","core"],
-        duration:"~110 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Incline Chest Press Machine", params:"4 Set × 12 Rep · 35kg", muscle:"Laabta sarreysa", how:"Mashiinka kor u jiiray oo fadhiso, gacmahai tartibba hore u qaad, si tartiib ah hoos u celi", link:"https://www.youtube.com/results?search_query=incline+chest+press+machine+form"},
-          {icon:"🏋️", name:"Decline Chest Press Machine", params:"3 Set × 12 Rep · 35kg", muscle:"Laabta hooseysa", how:"Mashiinka hoos u jiiray, laabta oo xoogga badan, kor u qaad oo hoos u celi", link:"https://www.youtube.com/results?search_query=decline+chest+press+machine"},
-          {icon:"💪", name:"Cable Bicep Curl (EZ Bar)", params:"4 Set × 12 Rep · 25kg", muscle:"Bicep — gacmaha hore", how:"Toosan, gacmahai laabka soo u qaad, dhaqaajinta xididigu ha samaysamin", link:"https://www.youtube.com/results?search_query=cable+ez+bar+curl+form"},
-          {icon:"💪", name:"Overhead Tricep Extension Machine", params:"4 Set × 12 Rep · 25kg", muscle:"Tricep dhexda", how:"Gacmahai madaxa ka dambe u qaad, tartibba soo jiib, dhidibku ha guurin", link:"https://www.youtube.com/results?search_query=overhead+tricep+extension+machine"},
-          {icon:"🎯", name:"Ab Wheel Machine / Roller", params:"3 Set × 12 Rep", muscle:"Caloolaha oo dhan + dhabarka", how:"Jilbaha dhig, mashiinka hore ugu saar oo cagaha u fiiq, caloolaha oo jiid soo kac", link:"https://www.youtube.com/results?search_query=ab+wheel+rollout+form"},
-          {icon:"🎯", name:"Hanging Leg Raise (Machine Dip Station)", params:"3 Set × 15 Rep", muscle:"Caloolaha hoose", how:"Gacantu ku taagan meesha, cagaha tartibba kor u qaad si toosan", link:"https://www.youtube.com/results?search_query=hanging+leg+raise+form"},
-          {icon:"❤️", name:"Treadmill Incline Walk", params:"20 daqiiqo · 6km/h · 10% incline", muscle:"Lugaha + Dufanka", how:"Socod xooggan, foolka sare ah, dufanka si dhakhso ah u xaraa", link:"https://www.youtube.com/results?search_query=incline+treadmill+walk+fat+burn"}
-        ]
-      },
-      {
-        day:7, name:"Axada", focus:"NASASHO", type:["rest"],
-        duration:"Maalin buuxda nasasho",
-        isRest: true,
-        restTips:["Biyo ku filan cab","Protein cun","Hurdada caadi u dhig","Massage","Marinka jirkaa sii fidi (stretching)"]
-      }
-    ]
-  },
-  {
-    week: 2, name: "KOBACA", desc: "Culus kor u kac 5-10%, jimicsiyada la darso",
-    intensity: 4, days: [
-      {
-        day:8, name:"Isniinta", focus:"LAABTA + CALOOL", type:["strength","core"],
-        duration:"~115 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Chest Press Machine", params:"5 Set × 10 Rep · 45kg", muscle:"Laabta, saddexbarkadaha hore", how:"Fadhiso, garabku dhulka taabato, gacmahai si buuxda hore u qaad oo tartibba hoos u celi", link:"https://www.youtube.com/results?search_query=chest+press+machine+form"},
-          {icon:"🏋️", name:"Incline Smith Machine Press", params:"4 Set × 10 Rep · 40kg", muscle:"Laabta sarreysa, garabka hore", how:"Smith machine si kor ah u dhig, fadhiso toosan, tartibba kor u qaad", link:"https://www.youtube.com/results?search_query=smith+machine+incline+press"},
-          {icon:"🏋️", name:"Pec Deck Fly Machine", params:"4 Set × 12 Rep · 40kg", muscle:"Laabta dhexe", how:"Gacmahai kala fidi si buuxda, xoogga laabta ku isugu soo jiib", link:"https://www.youtube.com/results?search_query=pec+deck+fly+machine+form"},
-          {icon:"💪", name:"Shoulder Press Machine", params:"4 Set × 10 Rep · 35kg", muscle:"Garabka oo dhan", how:"Kursiga toosnaantiisa dib u dhig, gacmahai toson si buuxda kor uga qaad", link:"https://www.youtube.com/results?search_query=shoulder+press+machine"},
-          {icon:"🎯", name:"Cable Crunch", params:"5 Set × 20 Rep · 30kg", muscle:"Caloolaha sare", how:"Jilbaha dhig, cable madaxa dul ka qabso, caloolaha oo tartibba hoos u jiid", link:"https://www.youtube.com/results?search_query=cable+crunch+kneeling"},
-          {icon:"🎯", name:"Seated Ab Machine", params:"4 Set × 20 Rep · 35kg", muscle:"Caloolaha hore", how:"Fadhiso, gacmahai dul dhig, caloolaha oo dul soo jiid", link:"https://www.youtube.com/results?search_query=seated+ab+crunch+machine"},
-          {icon:"🎯", name:"Oblique Cable Side Bend", params:"3 Set × 20 Rep · 15kg", muscle:"Caloolaha dhinacyada", how:"Cable dhinaca ka qabso, tartibba dhinac u jiib oo soo kac", link:"https://www.youtube.com/results?search_query=cable+side+bend+oblique"},
-          {icon:"❤️", name:"Treadmill HIIT", params:"20 daqiiqo · Xoog badan", muscle:"Wadnaha + Dufanka", how:"45 ilbiriqsi orod dhakhso (9km/h), 45 ilbiriqsi tartiib — 13 goor", link:"https://www.youtube.com/results?search_query=treadmill+HIIT+workout"}
-        ]
-      },
-      {
-        day:9, name:"Talaadada", focus:"LUGAHA BUUXDA + CALOOL", type:["strength","core"],
-        duration:"~115 daqiiqo",
-        exercises:[
-          {icon:"🦵", name:"Leg Press Machine", params:"5 Set × 12 Rep · 100kg", muscle:"Quads, Glutes, Hamstrings", how:"Cagaha dhexdooda, hoos u jiido inta 90° gaadhsiin, tartibba soo kac", link:"https://www.youtube.com/results?search_query=leg+press+machine+form"},
-          {icon:"🦵", name:"Hack Squat Machine", params:"4 Set × 10 Rep · 80kg", muscle:"Quads, Glutes", how:"Dhabkha la taabto mashiinka, cagaha dhexdooda, dul u hoos fadhiso", link:"https://www.youtube.com/results?search_query=hack+squat+machine+form"},
-          {icon:"🦵", name:"Leg Extension Machine", params:"4 Set × 15 Rep · 45kg", muscle:"Quads — hore", how:"Sit, cagaha ku hoos geli, xididigu ha taaban kursiga hoose, kor u qaad", link:"https://www.youtube.com/results?search_query=leg+extension+machine+form"},
-          {icon:"🦵", name:"Leg Curl Machine", params:"4 Set × 12 Rep · 40kg", muscle:"Hamstrings — dambe", how:"Ku jiidala, cagaha hoos galintiisa ku xidh, soo hoos jiid", link:"https://www.youtube.com/results?search_query=lying+leg+curl+machine"},
-          {icon:"🦶", name:"Seated Calf Raise Machine", params:"4 Set × 20 Rep · 50kg", muscle:"Calves — Soleus", how:"Jilbaha dul dhig, xididku ha taaban meesha, tartibba kor u jiid", link:"https://www.youtube.com/results?search_query=seated+calf+raise+machine+form"},
-          {icon:"🎯", name:"Ab Coaster Machine", params:"4 Set × 15 Rep", muscle:"Caloolaha oo dhan", how:"Jilbaha ku dhig, caloolaha soo jiid jilbaha", link:"https://www.youtube.com/results?search_query=ab+coaster+machine+form"},
-          {icon:"🎯", name:"Rotary Torso Machine", params:"4 Set × 20 Rep · 25kg", muscle:"Obliques", how:"Dhinac u jiib, soo kac, dhinaca kale", link:"https://www.youtube.com/results?search_query=rotary+torso+machine"},
-          {icon:"❤️", name:"Stationary Bike HIIT", params:"20 daqiiqo", muscle:"Lugaha + Dufanka", how:"30 ilbiriqsi dhakhso xoog badan, 60 ilbiriqsi tartiib — 13 goor", link:"https://www.youtube.com/results?search_query=stationary+bike+HIIT"}
-        ]
-      },
-      {
-        day:10, name:"Arbacada", focus:"DHABARKA + CALOOL", type:["strength","core"],
-        duration:"~115 daqiiqo",
-        exercises:[
-          {icon:"🔝", name:"Lat Pulldown Machine", params:"5 Set × 10 Rep · 55kg", muscle:"Lats, Biceps", how:"Fadhiso, xidhxidha kor ka qabso ballaaran, mashiinka miciigta loo hoos jiid", link:"https://www.youtube.com/results?search_query=lat+pulldown+form"},
-          {icon:"🔝", name:"Seated Cable Row", params:"4 Set × 10 Rep · 60kg", muscle:"Dhabarka dhexe", how:"Fadhiso, cagaha hore dhig, gacmahai laabka soo u jiib dhabarka toosan", link:"https://www.youtube.com/results?search_query=seated+cable+row+form"},
-          {icon:"🔝", name:"T-Bar Row Machine", params:"4 Set × 10 Rep · 50kg", muscle:"Dhabarka ballaaran", how:"Gacantu ku qabso, dhabarka toosan, kor u jiib", link:"https://www.youtube.com/results?search_query=t-bar+row+machine"},
-          {icon:"⬆️", name:"Back Extension Machine", params:"4 Set × 15 Rep · 30kg", muscle:"Dhabarka hoose", how:"Hoos u jiid, tartibba kor u kac", link:"https://www.youtube.com/results?search_query=back+extension+machine"},
-          {icon:"🎯", name:"Cable Crunch", params:"5 Set × 20 Rep · 35kg", muscle:"Caloolaha", how:"Cable kneeling crunch xoog badan", link:"https://www.youtube.com/results?search_query=cable+crunch"},
-          {icon:"🎯", name:"Decline Sit-Up Machine", params:"4 Set × 20 Rep", muscle:"Caloolaha sare", how:"Lugaha xidh, gacmahai madaxa dul dhig, soo kac", link:"https://www.youtube.com/results?search_query=decline+situp+machine"},
-          {icon:"🎯", name:"Side Bend Cable Machine", params:"3 Set × 20 Rep · 15kg", muscle:"Obliques", how:"Dhinac u jiib, soo kac", link:"https://www.youtube.com/results?search_query=cable+side+bend"},
-          {icon:"❤️", name:"Rowing Machine", params:"20 daqiiqo · Interval", muscle:"Jirka oo dhan", how:"500m xoog, 250m nabad — celceli", link:"https://www.youtube.com/results?search_query=rowing+machine+HIIT"}
-        ]
-      },
-      {
-        day:11, name:"Khamiista", focus:"GARABKA + GACMAHA + CALOOL", type:["strength","core"],
-        duration:"~115 daqiiqo",
-        exercises:[
-          {icon:"💪", name:"Shoulder Press Machine", params:"5 Set × 10 Rep · 40kg", muscle:"Garabka oo dhan", how:"Kor u qaad si buuxda, tartibba hoos u celi", link:"https://www.youtube.com/results?search_query=shoulder+press+machine"},
-          {icon:"💪", name:"Lateral Raise Machine", params:"4 Set × 15 Rep · 20kg", muscle:"Garabka dhexe", how:"Dhinacyada u qaad, tartibba hoos u celi", link:"https://www.youtube.com/results?search_query=lateral+raise+machine"},
-          {icon:"💪", name:"Rear Delt Fly Machine", params:"4 Set × 15 Rep · 25kg", muscle:"Garabka dambe", how:"Gacmahai hore ula eeg, dhinac u qaad", link:"https://www.youtube.com/results?search_query=rear+delt+fly+machine"},
-          {icon:"💪", name:"Preacher Curl Machine", params:"4 Set × 12 Rep · 30kg", muscle:"Bicep", how:"Gacantu taabato meesha, kor u qaad tartibba", link:"https://www.youtube.com/results?search_query=preacher+curl+machine"},
-          {icon:"💪", name:"Tricep Pushdown Cable", params:"4 Set × 15 Rep · 35kg", muscle:"Tricep", how:"Toosan, hoos u qaad, tartibba soo kac", link:"https://www.youtube.com/results?search_query=tricep+pushdown"},
-          {icon:"🎯", name:"Ab Machine Crunch", params:"5 Set × 20 Rep · 40kg", muscle:"Caloolaha", how:"Culus kor u kac, xoogga oo badan", link:"https://www.youtube.com/results?search_query=seated+ab+crunch+machine"},
-          {icon:"🎯", name:"Rotary Torso", params:"4 Set × 20 Rep · 30kg", muscle:"Obliques", how:"Dhinac u jiib tartibba", link:"https://www.youtube.com/results?search_query=rotary+torso+machine"},
-          {icon:"❤️", name:"Elliptical HIIT", params:"20 daqiiqo", muscle:"Jirka oo dhan", how:"2 daqiiqo adag, 1 daqiiqo sahlan — 6 goor", link:"https://www.youtube.com/results?search_query=elliptical+HIIT"}
-        ]
-      },
-      {
-        day:12, name:"Jimcaha", focus:"LUGAHA + CALOOL", type:["strength","core"],
-        duration:"~115 daqiiqo",
-        exercises:[
-          {icon:"🦵", name:"Smith Machine Squat", params:"4 Set × 10 Rep · 70kg", muscle:"Quads, Glutes, Core", how:"Cagaha dhexdooda, dhabkha toosan, hoos u jiido", link:"https://www.youtube.com/results?search_query=smith+machine+squat"},
-          {icon:"🦵", name:"Hip Abductor Machine", params:"4 Set × 15 Rep · 55kg", muscle:"Glute Med, Abductors", how:"Cagaha kala fidi xoogga dhinacyada", link:"https://www.youtube.com/results?search_query=hip+abductor+machine"},
-          {icon:"🦵", name:"Hip Adductor Machine", params:"4 Set × 15 Rep · 50kg", muscle:"Adductors — dhexda lugaha", how:"Cagaha isugu soo jiib xoogga dhexda", link:"https://www.youtube.com/results?search_query=hip+adductor+machine"},
-          {icon:"🦵", name:"Glute Kickback Machine", params:"4 Set × 12 Rep · 35kg (cag kasta)", muscle:"Glutes", how:"Cagta hoos u jiid, tartibba hore u qaad", link:"https://www.youtube.com/results?search_query=glute+kickback+machine"},
-          {icon:"🦶", name:"Standing Calf Raise Machine", params:"4 Set × 20 Rep · 70kg", muscle:"Calves", how:"Kor u jiid miciigta xididka", link:"https://www.youtube.com/results?search_query=standing+calf+raise+machine"},
-          {icon:"🎯", name:"Cable Crunch Heavy", params:"5 Set × 20 Rep · 40kg", muscle:"Caloolaha", how:"Culus badan, xoogga caloolaha", link:"https://www.youtube.com/results?search_query=cable+crunch+heavy"},
-          {icon:"🎯", name:"Hanging Leg Raise", params:"4 Set × 15 Rep", muscle:"Caloolaha hoose", how:"Cagaha toosan kor u qaad", link:"https://www.youtube.com/results?search_query=hanging+leg+raise"},
-          {icon:"❤️", name:"Stairmaster", params:"20 daqiiqo", muscle:"Lugaha + Dufanka", how:"Tartibba kor u kac, xoogga hoose", link:"https://www.youtube.com/results?search_query=stairmaster+fat+burn"}
-        ]
-      },
-      {
-        day:13, name:"Sabti", focus:"LAAB + GACMAHA + CALOOL", type:["strength","core"],
-        duration:"~115 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Incline Chest Press Machine", params:"4 Set × 10 Rep · 45kg", muscle:"Laabta sarreysa", how:"Kor u dhig, gacmahai buuxa u qaad", link:"https://www.youtube.com/results?search_query=incline+chest+press+machine"},
-          {icon:"🏋️", name:"Cable Crossover Low to High", params:"4 Set × 12 Rep · 20kg", muscle:"Laabta sare", how:"Cable hoose ka qabso, kor u jiib", link:"https://www.youtube.com/results?search_query=cable+crossover+low+to+high"},
-          {icon:"💪", name:"Cable Bicep Curl", params:"4 Set × 12 Rep · 30kg", muscle:"Bicep", how:"Cable ku laab gacmahaaga", link:"https://www.youtube.com/results?search_query=cable+bicep+curl"},
-          {icon:"💪", name:"Overhead Tricep Extension", params:"4 Set × 12 Rep · 30kg", muscle:"Tricep", how:"Madaxa ka dambe u qaad, tartibba soo jiib", link:"https://www.youtube.com/results?search_query=overhead+tricep+extension+cable"},
-          {icon:"🎯", name:"Ab Coaster Machine", params:"4 Set × 20 Rep", muscle:"Caloolaha oo dhan", how:"Jilbaha ku dhig, caloolaha soo jiid", link:"https://www.youtube.com/results?search_query=ab+coaster"},
-          {icon:"🎯", name:"Oblique Cable Twist", params:"4 Set × 20 Rep · 20kg", muscle:"Obliques", how:"Tartibba leexo", link:"https://www.youtube.com/results?search_query=cable+oblique+twist"},
-          {icon:"❤️", name:"Treadmill HIIT Advanced", params:"20 daqiiqo", muscle:"Dufanka xaro", how:"1 daqiiqo orod dhakhso (10km/h), 1 daqiiqo biyaanso (4km/h)", link:"https://www.youtube.com/results?search_query=treadmill+HIIT+advanced"}
-        ]
-      },
-      {
-        day:14, name:"Axada", focus:"NASASHO", type:["rest"],
-        duration:"Maalin buuxda nasasho",
-        isRest: true,
-        restTips:["Stretching si tartiib ah","Biyo fara badan","Hurdada 8 saacadood","Protein sare cun","Jirka dib u dhis"]
-      }
-    ]
-  },
-  {
-    week: 3, name: "KOBAC DHEERAAD AH", desc: "Culus wax kor ah, jimicsiyada cusub + supersets",
-    intensity: 5, days: [
-      {
-        day:15, name:"Isniinta", focus:"LAAB + TRICEP + CALOOL", type:["strength","core","hiit"],
-        duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Chest Press Machine Heavy", params:"5 Set × 8 Rep · 55kg", muscle:"Laabta oo dhan", how:"Culus badan, 8 rep oo adag, kor u qaad xoog badan", link:"https://www.youtube.com/results?search_query=chest+press+machine+heavy"},
-          {icon:"🏋️", name:"Incline Smith Press", params:"4 Set × 10 Rep · 50kg", muscle:"Laabta sarreysa", how:"Kor u dhig, slow eccentric (3 ilbiriqsi hoos)", link:"https://www.youtube.com/results?search_query=smith+machine+incline+press"},
-          {icon:"🏋️", name:"Pec Deck + Cable Fly Superset", params:"3 Set × 12+12 Rep · 45kg/20kg", muscle:"Laabta dhexe", how:"Pec deck dhamee, isla markiiba cable fly samee", link:"https://www.youtube.com/results?search_query=pec+deck+superset+cable+fly"},
-          {icon:"💪", name:"Tricep Pushdown Cable", params:"4 Set × 15 Rep · 40kg", muscle:"Tricep", how:"Hoos u qaad si buuxda, 1 ilbiriqsi jooji", link:"https://www.youtube.com/results?search_query=tricep+pushdown+cable"},
-          {icon:"💪", name:"Overhead Tricep Extension", params:"4 Set × 12 Rep · 35kg", muscle:"Tricep dhexda", how:"Madaxa ka dambe u qaad, jirka oo taagan", link:"https://www.youtube.com/results?search_query=overhead+tricep+extension+cable"},
-          {icon:"🎯", name:"Cable Crunch Drop Set", params:"3 Set × 20-15-12 Rep · 40-30-20kg", muscle:"Caloolaha sare", how:"Culus bilow, drop set samee", link:"https://www.youtube.com/results?search_query=cable+crunch+drop+set"},
-          {icon:"🎯", name:"Ab Machine + Oblique Twist Superset", params:"3 Set × 20+20 Rep", muscle:"Caloolaha oo dhan", how:"Ab machine dhamee, isla markiiba torso twist", link:"https://www.youtube.com/results?search_query=ab+machine+superset"},
-          {icon:"❤️", name:"Treadmill HIIT", params:"20 daqiiqo · Tabata", muscle:"Dufanka", how:"20 ilbiriqsi orod, 10 ilbiriqsi jooji — 8 goor marka xigta 4 daqiiqo nasasho", link:"https://www.youtube.com/results?search_query=treadmill+tabata+HIIT"}
-        ]
-      },
-      {
-        day:16, name:"Talaadada", focus:"DHAB + BICEP + CALOOL", type:["strength","core","hiit"],
-        duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🔝", name:"Lat Pulldown Wide Grip", params:"5 Set × 8 Rep · 65kg", muscle:"Lats — ballaaran", how:"Gacmahai si ballaaran u dhig, kor ka qabso, tartibba hoos u jiid miciigta", link:"https://www.youtube.com/results?search_query=lat+pulldown+wide+grip"},
-          {icon:"🔝", name:"Seated Row Narrow Grip", params:"4 Set × 10 Rep · 65kg", muscle:"Dhabarka dhexe, Rhomboids", how:"Grip dhexdhexaad, gacmahai wax dheeraad ah laabka u jiib", link:"https://www.youtube.com/results?search_query=seated+row+narrow+grip"},
-          {icon:"🔝", name:"Single Arm Cable Row", params:"3 Set × 12 Rep · 25kg (dhinac kasta)", muscle:"Dhabarka mid-ah", how:"Gacanta keli ah si tartiib ah laabka u jiib, dhabarka toosan", link:"https://www.youtube.com/results?search_query=single+arm+cable+row+form"},
-          {icon:"💪", name:"Preacher Curl Machine", params:"4 Set × 12 Rep · 35kg", muscle:"Bicep peak", how:"Slow rep, 2 ilbiriqsi kor, 2 ilbiriqsi hoos", link:"https://www.youtube.com/results?search_query=preacher+curl+machine"},
-          {icon:"💪", name:"Cable Hammer Curl", params:"3 Set × 12 Rep · 20kg", muscle:"Brachialis, Brachioradialis", how:"Rope attachment, gacmahai toogan kor u qaad", link:"https://www.youtube.com/results?search_query=cable+hammer+curl+rope"},
-          {icon:"🎯", name:"Roman Chair Leg Raise", params:"4 Set × 15 Rep", muscle:"Caloolaha hoose", how:"Gacmahai dul dhig, cagaha toosan kor u qaad", link:"https://www.youtube.com/results?search_query=roman+chair+leg+raise"},
-          {icon:"🎯", name:"Rotary Torso Machine", params:"4 Set × 25 Rep · 30kg", muscle:"Obliques", how:"Tartibba leexo, xoogga caloolaha oo ah", link:"https://www.youtube.com/results?search_query=rotary+torso+machine"},
-          {icon:"❤️", name:"Rowing Machine HIIT", params:"20 daqiiqo", muscle:"Jirka oo dhan", how:"250m dhakhso badan, 250m nabad — 10+ goor", link:"https://www.youtube.com/results?search_query=rowing+machine+HIIT+intervals"}
-        ]
-      },
-      {
-        day:17, name:"Arbacada", focus:"LUGAHA + CALOOL", type:["strength","core","hiit"],
-        duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🦵", name:"Leg Press Heavy", params:"5 Set × 10 Rep · 120kg", muscle:"Quads, Glutes, Hamstrings", how:"Cagaha dhexdooda, hoos u jiido buuxa, tartibba soo kac", link:"https://www.youtube.com/results?search_query=leg+press+heavy"},
-          {icon:"🦵", name:"Hack Squat Machine", params:"4 Set × 10 Rep · 90kg", muscle:"Quads, Glutes", how:"Slow eccentric, 3 ilbiriqsi hoos, dhakhso kor", link:"https://www.youtube.com/results?search_query=hack+squat+machine"},
-          {icon:"🦵", name:"Leg Extension + Leg Curl Superset", params:"4 Set × 15+15 Rep · 50kg/45kg", muscle:"Quads + Hamstrings", how:"Leg extension dhamee, isla markiiba leg curl samee", link:"https://www.youtube.com/results?search_query=leg+extension+leg+curl+superset"},
-          {icon:"🦵", name:"Hip Abductor + Adductor Superset", params:"3 Set × 20+20 Rep · 55+50kg", muscle:"Glute Med, Adductors", how:"Isku xig labada mashiin", link:"https://www.youtube.com/results?search_query=hip+abductor+adductor+superset"},
-          {icon:"🦶", name:"Calf Raise Machine", params:"5 Set × 20 Rep · 80kg", muscle:"Calves", how:"Kor u jiid miciigta, 1 ilbiriqsi jooji", link:"https://www.youtube.com/results?search_query=calf+raise+machine"},
-          {icon:"🎯", name:"Cable Crunch + Leg Raise Superset", params:"4 Set × 20+15 Rep", muscle:"Caloolaha oo dhan", how:"Cable crunch dhamee, isla markiiba leg raise samee", link:"https://www.youtube.com/results?search_query=cable+crunch+leg+raise+superset"},
-          {icon:"❤️", name:"Stairmaster HIIT", params:"20 daqiiqo", muscle:"Lugaha + Dufanka", how:"1 daqiiqo dhakhso, 1 daqiiqo tartiib — 10 goor", link:"https://www.youtube.com/results?search_query=stairmaster+HIIT"}
-        ]
-      },
-      {
-        day:18, name:"Khamiista", focus:"GARAB + XOOG SAARE + CALOOL", type:["strength","core"],
-        duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"💪", name:"Shoulder Press Machine Heavy", params:"5 Set × 8 Rep · 50kg", muscle:"Garabka oo dhan", how:"Culus badan, si buuxda kor u qaad", link:"https://www.youtube.com/results?search_query=shoulder+press+machine+heavy"},
-          {icon:"💪", name:"Lateral Raise Machine", params:"4 Set × 15 Rep · 25kg", muscle:"Garabka dhexe", how:"Dhinacyada u qaad tartibba", link:"https://www.youtube.com/results?search_query=lateral+raise+machine"},
-          {icon:"💪", name:"Rear Delt Fly + Face Pull Superset", params:"3 Set × 15+15 Rep · 25/20kg", muscle:"Garabka dambe, rotation", how:"Fly dhamee, face pull samee", link:"https://www.youtube.com/results?search_query=face+pull+cable+form"},
-          {icon:"🏋️", name:"Shrug Machine", params:"4 Set × 15 Rep · 70kg", muscle:"Traps — xididigu", how:"Gacmahai hoos u dhig, miciiga kor u qaad oo jooji", link:"https://www.youtube.com/results?search_query=shrug+machine+form"},
-          {icon:"🎯", name:"Ab Machine Drop Set", params:"4 Set · 20 Rep", muscle:"Caloolaha", how:"Culus bilow, mid kasta ka dib yar u dhac", link:"https://www.youtube.com/results?search_query=ab+machine+drop+set"},
-          {icon:"🎯", name:"Oblique Crunch Cable", params:"4 Set × 20 Rep · 20kg", muscle:"Obliques", how:"Dhinac u jiib xoogga caloolaha", link:"https://www.youtube.com/results?search_query=cable+oblique+crunch"},
-          {icon:"❤️", name:"Elliptical Interval", params:"20 daqiiqo", muscle:"Jirka oo dhan", how:"Xoog kala duwan, 2:1 ratio", link:"https://www.youtube.com/results?search_query=elliptical+interval+training"}
-        ]
-      },
-      {
-        day:19, name:"Jimcaha", focus:"LAAB + DHAB SUPERSET + CALOOL", type:["strength","core","hiit"],
-        duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Chest Press + Lat Pulldown Superset", params:"4 Set × 10+10 Rep · 55/60kg", muscle:"Laabta + Dhabarka", how:"Chest press dhamee, isla markiiba lat pulldown samee", link:"https://www.youtube.com/results?search_query=chest+back+superset+machine"},
-          {icon:"🏋️", name:"Incline Press + Row Superset", params:"3 Set × 10+10 Rep · 50/65kg", muscle:"Laabta sare + Dhabarka dhexe", how:"Laab ka bilow, dhabarka ku dhamee", link:"https://www.youtube.com/results?search_query=push+pull+superset"},
-          {icon:"💪", name:"Bicep + Tricep Superset", params:"4 Set × 12+12 Rep · 30/35kg", muscle:"Gacmaha oo dhan", how:"Preacher curl + Pushdown isku xig", link:"https://www.youtube.com/results?search_query=bicep+tricep+superset"},
-          {icon:"🎯", name:"Full Ab Circuit", params:"3 goor · Jimicsiyada 4", muscle:"Caloolaha oo dhan", how:"Cable crunch → Leg raise → Oblique twist → Ab machine — 1 min nasasho", link:"https://www.youtube.com/results?search_query=full+ab+circuit+gym"},
-          {icon:"❤️", name:"Treadmill + Bike Combo HIIT", params:"20 daqiiqo", muscle:"Dufanka oo dhan", how:"10 daqiiqo treadmill HIIT, 10 daqiiqo bike interval", link:"https://www.youtube.com/results?search_query=cardio+combo+HIIT"}
-        ]
-      },
-      {
-        day:20, name:"Sabti", focus:"LUGAHA DHABARKA + CALOOL", type:["strength","core"],
-        duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🦵", name:"Smith Machine Squat", params:"5 Set × 8 Rep · 80kg", muscle:"Quads, Glutes, Core", how:"Culus badan, hoos u jiido buuxa", link:"https://www.youtube.com/results?search_query=smith+machine+squat"},
-          {icon:"🦵", name:"Glute Kickback Machine", params:"4 Set × 15 Rep · 40kg", muscle:"Glutes", how:"Cagta oo dib u qaad xoogga gundaha", link:"https://www.youtube.com/results?search_query=glute+kickback+machine"},
-          {icon:"⬆️", name:"Back Extension Machine", params:"4 Set × 15 Rep · 35kg", muscle:"Dhabarka hoose", how:"Hoos u jiid, kor u kac tartibba", link:"https://www.youtube.com/results?search_query=back+extension+machine"},
-          {icon:"🦵", name:"Seated Leg Curl", params:"4 Set × 12 Rep · 45kg", muscle:"Hamstrings", how:"Fadhiso, cagaha hoos u jiid", link:"https://www.youtube.com/results?search_query=seated+leg+curl+machine"},
-          {icon:"🎯", name:"Cable Crunch", params:"5 Set × 20 Rep · 45kg", muscle:"Caloolaha", how:"Culus badan, slow rep", link:"https://www.youtube.com/results?search_query=cable+crunch"},
-          {icon:"🎯", name:"Rotary Torso + Roman Chair Superset", params:"3 Set × 20+15 Rep", muscle:"Obliques + Calool hoose", how:"Isku xig", link:"https://www.youtube.com/results?search_query=oblique+leg+raise+superset"},
-          {icon:"❤️", name:"Incline Treadmill Walk", params:"20 daqiiqo · 8% incline · 6km/h", muscle:"Lugaha + Dufanka", how:"Xoogga hoose waa dufanka si fiican u xaraa", link:"https://www.youtube.com/results?search_query=incline+treadmill+walk+fat+burn"}
-        ]
-      },
-      {
-        day:21, name:"Axada", focus:"NASASHO", type:["rest"],
-        duration:"Maalin buuxda nasasho",
-        isRest: true,
-        restTips:["Foam roller isticmaal","Biyo fara badan","Hurdada 8-9 saacadood","Hilib cad + Khudaar cun","Stress yar"]
-      }
-    ]
-  },
-  {
-    week: 4, name: "KOBAC XOOGGAN", desc: "Jimicsiyada xoogga sareeya — Pyramid sets iyo Drop sets",
-    intensity: 6, days: [
-      {day:22, name:"Isniinta", focus:"LAAB + CALOOL HIIT", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Chest Press Pyramid", params:"5 Set (12-10-8-6-12 Rep) · 45-50-55-60-45kg", muscle:"Laabta oo dhan", how:"Pyramid: bilow sahlan, culus geli oo dib u noqo", link:"https://www.youtube.com/results?search_query=chest+press+pyramid+set"},
-          {icon:"🏋️", name:"Incline Press Machine", params:"4 Set × 8 Rep · 55kg", muscle:"Laabta sarreysa", how:"Slow eccentric 4 ilbiriqsi, dhakhso kor", link:"https://www.youtube.com/results?search_query=incline+chest+press+machine"},
-          {icon:"🏋️", name:"Pec Deck Fly", params:"4 Set × 12 Rep · 50kg", muscle:"Laabta dhexe", how:"Si buuxda u kala fidi, xoogga laabta isugu soo jiib", link:"https://www.youtube.com/results?search_query=pec+deck+fly"},
-          {icon:"💪", name:"Cable Crossover Low-High", params:"3 Set × 15 Rep · 20kg", muscle:"Laabta sare", how:"Hoose ka bilow, kor u jiib", link:"https://www.youtube.com/results?search_query=cable+crossover+low+to+high"},
-          {icon:"🎯", name:"Ab Machine Drop Set", params:"4 Set · 25-20-15 Rep · 50-35-25kg", muscle:"Caloolaha", how:"Culus bilow, drop samee", link:"https://www.youtube.com/results?search_query=ab+machine+drop+set"},
-          {icon:"🎯", name:"Cable Side Bend", params:"4 Set × 25 Rep · 20kg", muscle:"Obliques", how:"Dhinac u jiib xoogga caloolaha", link:"https://www.youtube.com/results?search_query=cable+side+bend+oblique"},
-          {icon:"❤️", name:"Treadmill Tabata", params:"20 daqiiqo", muscle:"Dufanka", how:"20 ilbiriqsi orod (12km/h), 10 ilbiriqsi jooji × 20", link:"https://www.youtube.com/results?search_query=treadmill+tabata+workout"}
-        ]
-      },
-      {day:23, name:"Talaadada", focus:"LUGAHA XOOG + CALOOL", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🦵", name:"Leg Press Pyramid", params:"5 Set (15-12-10-8-15 Rep) · 90-110-130-150-90kg", muscle:"Quads, Glutes, Hamstrings", how:"Pyramid culus, buuxa hoos u jiido", link:"https://www.youtube.com/results?search_query=leg+press+pyramid+set"},
-          {icon:"🦵", name:"Hack Squat", params:"4 Set × 8 Rep · 100kg", muscle:"Quads, Glutes", how:"Adag, 90° fadhiso, dhakhso kor u kac", link:"https://www.youtube.com/results?search_query=hack+squat+machine"},
-          {icon:"🦵", name:"Leg Extension Drop Set", params:"3 Set · 20-15-12 Rep · 60-45-35kg", muscle:"Quads", how:"Drop: culus bilow, mid kasta ka dib yar u dhac", link:"https://www.youtube.com/results?search_query=leg+extension+drop+set"},
-          {icon:"🦵", name:"Romanian Deadlift Machine", params:"4 Set × 10 Rep · 60kg", muscle:"Hamstrings, Glutes, Dhabarka hoose", how:"Mashiinka Smith/cable, lugaha si tartiib ah hoos u jiid", link:"https://www.youtube.com/results?search_query=romanian+deadlift+smith+machine"},
-          {icon:"🦵", name:"Hip Abductor + Adductor Superset", params:"4 Set × 20+20 Rep · 60+55kg", muscle:"Dhinacyada lugaha", how:"Isku xig labada mashiin", link:"https://www.youtube.com/results?search_query=abductor+adductor+superset"},
-          {icon:"🎯", name:"Cable Crunch Heavy", params:"5 Set × 20 Rep · 50kg", muscle:"Caloolaha", how:"Culus aad ah, slow rep", link:"https://www.youtube.com/results?search_query=cable+crunch"},
-          {icon:"❤️", name:"Stairmaster Sprint Interval", params:"20 daqiiqo", muscle:"Lugaha + Dufanka", how:"30 ilbiriqsi dhakhso, 30 ilbiriqsi tartiib — 20 goor", link:"https://www.youtube.com/results?search_query=stairmaster+sprint+intervals"}
-        ]
-      },
-      {day:24, name:"Arbacada", focus:"DHAB BUUXA + CALOOL", type:["strength","core"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🔝", name:"Lat Pulldown Pyramid", params:"5 Set · 12-10-8-6-12 Rep · 55-65-70-75-55kg", muscle:"Lats, Biceps", how:"Pyramid, grip ballaaran", link:"https://www.youtube.com/results?search_query=lat+pulldown+pyramid"},
-          {icon:"🔝", name:"Seated Row Drop Set", params:"3 Set · 15-12-10 Rep · 70-55-45kg", muscle:"Dhabarka dhexe", how:"Drop set, tartibba", link:"https://www.youtube.com/results?search_query=seated+row+drop+set"},
-          {icon:"🔝", name:"T-Bar Row Heavy", params:"4 Set × 8 Rep · 60kg", muscle:"Dhabarka oo dhan", how:"Culus badan, toosan", link:"https://www.youtube.com/results?search_query=t-bar+row+machine"},
-          {icon:"⬆️", name:"Back Extension + Glute Squeeze", params:"4 Set × 15 Rep · 40kg", muscle:"Dhabarka hoose + Glutes", how:"Kor u kaco, gundaha joojiyo", link:"https://www.youtube.com/results?search_query=back+extension+machine"},
-          {icon:"🎯", name:"Ab Coaster + Cable Crunch Superset", params:"4 Set × 15+15 Rep", muscle:"Caloolaha oo dhan", how:"Isku xig si dhakhso ah", link:"https://www.youtube.com/results?search_query=ab+coaster+cable+crunch+superset"},
-          {icon:"🎯", name:"Rotary Torso Heavy", params:"4 Set × 25 Rep · 35kg", muscle:"Obliques", how:"Dhinac u jiib, tartibba", link:"https://www.youtube.com/results?search_query=rotary+torso"},
-          {icon:"❤️", name:"Rowing Machine HIIT", params:"20 daqiiqo", muscle:"Jirka oo dhan", how:"250m max effort, 1 daqiiqo nasasho × 10", link:"https://www.youtube.com/results?search_query=rowing+machine+HIIT"}
-        ]
-      },
-      {day:25, name:"Khamiista", focus:"GARAB + GACMAHA + CALOOL", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"💪", name:"Shoulder Press Pyramid", params:"5 Set · 12-10-8-6-12 Rep · 40-45-50-55-40kg", muscle:"Garabka oo dhan", how:"Pyramid, si buuxda kor u qaad", link:"https://www.youtube.com/results?search_query=shoulder+press+pyramid"},
-          {icon:"💪", name:"Lateral Raise Machine Drop Set", params:"3 Set · 20-15-10 Rep · 25-18-12kg", muscle:"Garabka dhexe", how:"Drop, tartibba dhinacyada", link:"https://www.youtube.com/results?search_query=lateral+raise+drop+set+machine"},
-          {icon:"💪", name:"Rear Delt Machine Heavy", params:"4 Set × 12 Rep · 30kg", muscle:"Garabka dambe", how:"Slow, buuxa dhinac u qaad", link:"https://www.youtube.com/results?search_query=rear+delt+fly+machine"},
-          {icon:"💪", name:"Bicep Curl Drop Set", params:"3 Set · 15-12-10 Rep · 35-25-18kg", muscle:"Bicep", how:"Drop: preacher machine", link:"https://www.youtube.com/results?search_query=bicep+curl+drop+set+machine"},
-          {icon:"💪", name:"Tricep Superset (Pushdown + Overhead)", params:"3 Set × 12+12 Rep · 40+30kg", muscle:"Tricep oo dhan", how:"Isku xig, gacmahai ha kala duwanaadaan", link:"https://www.youtube.com/results?search_query=tricep+pushdown+overhead+superset"},
-          {icon:"🎯", name:"Full Core Circuit", params:"4 goor · 4 jimicsi", muscle:"Caloolaha oo dhan", how:"Cable crunch × 20 → Leg raise × 15 → Oblique twist × 20 → Ab machine × 20", link:"https://www.youtube.com/results?search_query=core+circuit+gym+machines"},
-          {icon:"❤️", name:"Elliptical HIIT Advanced", params:"20 daqiiqo", muscle:"Jirka oo dhan", how:"1:30 adag, 30 ilbiriqsi nabad — 8 goor", link:"https://www.youtube.com/results?search_query=elliptical+HIIT+advanced"}
-        ]
-      },
-      {day:26, name:"Jimcaha", focus:"LAAB + DHAB PUSH-PULL + CALOOL", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Push-Pull Giant Set", params:"4 Set × 10+10+10+10 Rep", muscle:"Laabta + Dhabarka", how:"Chest press → Lat pull → Incline press → Row — 30 ilbiriqsi nasasho", link:"https://www.youtube.com/results?search_query=push+pull+giant+set+gym"},
-          {icon:"💪", name:"Arms Giant Set", params:"3 Set × 12+12+12 Rep", muscle:"Bicep + Tricep", how:"Curl → Pushdown → Overhead ext — nasasho", link:"https://www.youtube.com/results?search_query=arms+giant+set"},
-          {icon:"🎯", name:"Ab Blast Circuit", params:"4 goor · Dhamaan", muscle:"Caloolaha oo dhan", how:"Ab machine → Cable crunch → Leg raise → Oblique twist — 45 ilbiriqsi nasasho", link:"https://www.youtube.com/results?search_query=ab+blast+circuit+machines"},
-          {icon:"❤️", name:"Bike + Treadmill Combo", params:"20 daqiiqo", muscle:"Dufanka", how:"10 min bike HIIT, 10 min treadmill HIIT", link:"https://www.youtube.com/results?search_query=cardio+combo+HIIT+gym"}
-        ]
-      },
-      {day:27, name:"Sabti", focus:"LUGAHA DAMBE + CALOOL", type:["strength","core"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🦵", name:"Romanian Deadlift Smith Machine", params:"5 Set × 10 Rep · 70kg", muscle:"Hamstrings, Glutes, Dhabarka hoose", how:"Lugaha si tartiib ah hoos u jiid, dhabkha toosan", link:"https://www.youtube.com/results?search_query=romanian+deadlift+smith+machine"},
-          {icon:"🦵", name:"Glute Kickback Machine", params:"4 Set × 15 Rep · 45kg (cag kasta)", muscle:"Glutes", how:"Cagta dib u qaad xoogga gundaha", link:"https://www.youtube.com/results?search_query=glute+kickback+machine"},
-          {icon:"🦵", name:"Prone Leg Curl Drop Set", params:"3 Set · 15-12-10 Rep · 50-40-30kg", muscle:"Hamstrings", how:"Drop set, si tartiib ah", link:"https://www.youtube.com/results?search_query=prone+leg+curl+drop+set"},
-          {icon:"🦶", name:"Calf Raise Superset (Standing + Seated)", params:"4 Set × 20+20 Rep · 80+60kg", muscle:"Calves oo dhan", how:"Standing dhamee, isla markiiba seated samee", link:"https://www.youtube.com/results?search_query=calf+raise+superset"},
-          {icon:"🎯", name:"Cable Crunch + Rotary Superset", params:"5 Set × 20+20 Rep", muscle:"Caloolaha + Obliques", how:"Isku xig", link:"https://www.youtube.com/results?search_query=cable+crunch+oblique+superset"},
-          {icon:"❤️", name:"Stairmaster", params:"20 daqiiqo · Interval", muscle:"Lugaha + Dufanka", how:"Xoog kala duwan", link:"https://www.youtube.com/results?search_query=stairmaster+interval+workout"}
-        ]
-      },
-      {
-        day:28, name:"Axada", focus:"NASASHO", type:["rest"],
-        duration:"Maalin buuxda nasasho",
-        isRest: true,
-        restTips:["Biyo 3L+","Protein macaan cun","Jiidaalidda fibrous vegetables","Yoga fudud","Hurdada 9 saacadood"]
-      }
-    ]
-  },
-  {
-    week: 5, name: "KORDHINTA WEYN", desc: "Culus aad u sareeya — Failure sets iyo Giant sets",
-    intensity: 7, days: [
-      {day:29, name:"Isniinta", focus:"LAAB + GARAB + CALOOL", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Chest Press to Failure", params:"4 Set × Failure · 60kg", muscle:"Laabta oo dhan", how:"Bilow, si aad u shaqeyso ilaa aadan karin", link:"https://www.youtube.com/results?search_query=chest+press+machine+to+failure"},
-          {icon:"🏋️", name:"Incline Smith Machine Press", params:"4 Set × 8 Rep · 60kg", muscle:"Laabta sarreysa", how:"Culus badan, 4 sec eccentric", link:"https://www.youtube.com/results?search_query=smith+machine+incline+press"},
-          {icon:"💪", name:"Shoulder Superset", params:"4 Set × 12+12 Rep · 50+25kg", muscle:"Garabka", how:"Press + Lateral raise isku xig", link:"https://www.youtube.com/results?search_query=shoulder+superset+machine"},
-          {icon:"🏋️", name:"Pec Deck to Failure", params:"3 Set × Failure · 50kg", muscle:"Laabta dhexe", how:"Ilaa aadan karin", link:"https://www.youtube.com/results?search_query=pec+deck+to+failure"},
-          {icon:"🎯", name:"Ab Giant Set", params:"4 goor · 5 jimicsi", muscle:"Caloolaha oo dhan", how:"Cable crunch × 25 → Leg raise × 20 → Ab machine × 25 → Oblique × 25 → Roman chair × 15 — 1 min nasasho", link:"https://www.youtube.com/results?search_query=ab+giant+set+gym"},
-          {icon:"❤️", name:"Treadmill HIIT Max", params:"20 daqiiqo", muscle:"Dufanka", how:"30 ilbiriqsi 13km/h, 30 ilbiriqsi jooji × 20", link:"https://www.youtube.com/results?search_query=treadmill+max+HIIT"}
-        ]
-      },
-      {day:30, name:"Talaadada", focus:"LUGAHA BUUXDA + CALOOL", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🦵", name:"Leg Press to Failure", params:"4 Set × Failure · 150kg", muscle:"Quads, Glutes, Hamstrings", how:"Culus aad u sareeya, ilaa aadan karin", link:"https://www.youtube.com/results?search_query=leg+press+to+failure"},
-          {icon:"🦵", name:"Hack Squat Heavy", params:"4 Set × 8 Rep · 110kg", muscle:"Quads, Glutes", how:"Culus badan, si tartiib ah hoos", link:"https://www.youtube.com/results?search_query=hack+squat+heavy"},
-          {icon:"🦵", name:"Leg Extension to Failure", params:"3 Set × Failure · 60kg", muscle:"Quads", how:"Ilaa aadan karin", link:"https://www.youtube.com/results?search_query=leg+extension+to+failure"},
-          {icon:"🦵", name:"Leg Curl + Hip Kickback Superset", params:"4 Set × 12+15 Rep · 50+40kg", muscle:"Hamstrings + Glutes", how:"Isku xig labada mashiin", link:"https://www.youtube.com/results?search_query=leg+curl+glute+kickback+superset"},
-          {icon:"🎯", name:"Cable Crunch to Failure", params:"4 Set × Failure · 50kg", muscle:"Caloolaha", how:"Ilaa aadan karin, slow rep", link:"https://www.youtube.com/results?search_query=cable+crunch+heavy"},
-          {icon:"🎯", name:"Rotary Torso Heavy", params:"4 Set × 25 Rep · 40kg", muscle:"Obliques", how:"Culus badan, tartibba", link:"https://www.youtube.com/results?search_query=rotary+torso+machine"},
-          {icon:"❤️", name:"Bike Sprint Intervals", params:"20 daqiiqo", muscle:"Lugaha + Dufanka", how:"15 ilbiriqsi sprint max, 45 ilbiriqsi nabad × 20", link:"https://www.youtube.com/results?search_query=bike+sprint+intervals"}
-        ]
-      },
-      {day:31, name:"Arbacada", focus:"DHAB BUUXA + CALOOL", type:["strength","core"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🔝", name:"Lat Pulldown to Failure", params:"4 Set × Failure · 70kg", muscle:"Lats, Biceps", how:"Ilaa aadan karin, grip ballaaran", link:"https://www.youtube.com/results?search_query=lat+pulldown+to+failure"},
-          {icon:"🔝", name:"Seated Row Heavy", params:"4 Set × 8 Rep · 75kg", muscle:"Dhabarka dhexe", how:"Culus badan, gacmahai laabka soo u jiib", link:"https://www.youtube.com/results?search_query=seated+row+heavy"},
-          {icon:"🔝", name:"T-Bar Row to Failure", params:"3 Set × Failure · 65kg", muscle:"Dhabarka", how:"Ilaa aadan karin", link:"https://www.youtube.com/results?search_query=t-bar+row+to+failure"},
-          {icon:"⬆️", name:"Back Extension Heavy + Pause", params:"4 Set × 12 Rep · 45kg", muscle:"Dhabarka hoose", how:"Kor u kaco oo 2 ilbiriqsi jooji", link:"https://www.youtube.com/results?search_query=back+extension+pause"},
-          {icon:"🎯", name:"Ab Circuit to Failure", params:"4 goor · Dhamaan", muscle:"Caloolaha", how:"Cable crunch → Leg raise → Oblique twist — ilaa aadan karin kasta", link:"https://www.youtube.com/results?search_query=ab+circuit+to+failure"},
-          {icon:"❤️", name:"Rowing Machine Max Effort", params:"20 daqiiqo", muscle:"Jirka oo dhan", how:"500m max effort, 1 daqiiqo nasasho × 8", link:"https://www.youtube.com/results?search_query=rowing+machine+max+effort"}
-        ]
-      },
-      {day:32, name:"Khamiista", focus:"GACMAHA BUUXA + CALOOL", type:["strength","core"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"💪", name:"Bicep Curl to Failure", params:"4 Set × Failure · 35kg", muscle:"Bicep", how:"Preacher machine, ilaa aadan karin", link:"https://www.youtube.com/results?search_query=bicep+curl+to+failure+machine"},
-          {icon:"💪", name:"Tricep Pushdown to Failure", params:"4 Set × Failure · 45kg", muscle:"Tricep", how:"Cable, ilaa aadan karin", link:"https://www.youtube.com/results?search_query=tricep+pushdown+to+failure"},
-          {icon:"💪", name:"Hammer Curl + Reverse Curl Superset", params:"3 Set × 12+12 Rep · 20+15kg", muscle:"Brachialis, Forearms", how:"Rope hammer → Reverse bar curl isku xig", link:"https://www.youtube.com/results?search_query=hammer+curl+reverse+curl+superset"},
-          {icon:"💪", name:"Tricep Overhead + Pushdown Giant Set", params:"3 Set × 12+12+Failure Rep", muscle:"Tricep oo dhan", how:"Overhead → Pushdown → Failure", link:"https://www.youtube.com/results?search_query=tricep+giant+set"},
-          {icon:"🎯", name:"Core Giant Set to Failure", params:"4 goor · 5 jimicsi", muscle:"Caloolaha oo dhan", how:"Dhamaan caloolaha jimicsiyada isku xig", link:"https://www.youtube.com/results?search_query=core+giant+set"},
-          {icon:"❤️", name:"Elliptical + Stairmaster Combo", params:"20 daqiiqo", muscle:"Jirka oo dhan", how:"10 min kasta", link:"https://www.youtube.com/results?search_query=cardio+combo+elliptical+stairmaster"}
-        ]
-      },
-      {day:33, name:"Jimcaha", focus:"JIRKA OO DHAN + CALOOL", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Full Body Circuit A", params:"3 goor · 6 jimicsi", muscle:"Jirka oo dhan", how:"Leg press × 15 → Chest press × 12 → Row × 12 → Shoulder press × 10 → Curl × 12 → Pushdown × 15 — 2 min nasasho", link:"https://www.youtube.com/results?search_query=full+body+circuit+gym+machines"},
-          {icon:"🎯", name:"Ab Superset x5", params:"5 Set × 20 Rep", muscle:"Caloolaha oo dhan", how:"Cable crunch + Leg raise + Oblique × 25+15+20", link:"https://www.youtube.com/results?search_query=ab+superset+5+sets"},
-          {icon:"❤️", name:"HIIT Cardio Triple", params:"21 daqiiqo", muscle:"Dufanka", how:"7 min treadmill HIIT, 7 min bike, 7 min elliptical", link:"https://www.youtube.com/results?search_query=triple+cardio+HIIT"}
-        ]
-      },
-      {day:34, name:"Sabti", focus:"LAAB + LUGAHA DHAMAAD ISBUUC", type:["strength","core"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Chest Press Heavy Pyramid", params:"5 Set · 12-10-8-6-4 Rep · 50-60-70-80-90kg", muscle:"Laabta", how:"Pyramid sareeya ee ugu weyn", link:"https://www.youtube.com/results?search_query=chest+press+machine+heavy"},
-          {icon:"🦵", name:"Leg Press Heavy Pyramid", params:"5 Set · 15-12-10-8-6 Rep · 100-130-150-170-190kg", muscle:"Lugaha oo dhan", how:"Pyramid culus aad u badan", link:"https://www.youtube.com/results?search_query=leg+press+pyramid+heavy"},
-          {icon:"🎯", name:"Ab Giant Set Final", params:"5 goor · 5 jimicsi", muscle:"Caloolaha oo dhan", how:"Dhamaan jimicsiyada caloolaha isku xig", link:"https://www.youtube.com/results?search_query=ab+giant+set"},
-          {icon:"❤️", name:"HIIT Max Cardio", params:"20 daqiiqo", muscle:"Dufanka", how:"Max effort intervals — treadmill 13km/h", link:"https://www.youtube.com/results?search_query=HIIT+max+cardio"}
-        ]
-      },
-      {
-        day:35, name:"Axada", focus:"NASASHO", type:["rest"],
-        duration:"Maalin buuxda nasasho",
-        isRest: true,
-        restTips:["Nasasho dhab ah","Biyo + Electrolytes","Ice bath haddii ay jirto","Hilib cad + Khudaar badan","Hurdada 9+ saacadood"]
-      }
-    ]
-  },
-  {
-    week: 6, name: "TIJAABO IYO KOBAC", desc: "Isbadalada maxima — qiyaas cusub, jimicsiyada la barid",
-    intensity: 8, days: [
-      {day:36, name:"Isniinta", focus:"LAAB + CALOOL", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Smith Machine Bench Press", params:"5 Set × 8 Rep · 80kg", muscle:"Laabta oo dhan", how:"Smith machine flat, culus badan, si tartiib ah hoos u saar", link:"https://www.youtube.com/results?search_query=smith+machine+bench+press+form"},
-          {icon:"🏋️", name:"Cable Fly High-Low", params:"4 Set × 12 Rep · 25kg", muscle:"Laabta hoose", how:"Kor ka bilow, hoos ugu jiib", link:"https://www.youtube.com/results?search_query=cable+fly+high+to+low"},
-          {icon:"🏋️", name:"Incline Pec Deck", params:"4 Set × 12 Rep · 45kg", muscle:"Laabta sarreysa", how:"Kor u dhig, si buuxda u kala fidi", link:"https://www.youtube.com/results?search_query=incline+pec+deck"},
-          {icon:"🎯", name:"Ab Wheel + Cable Crunch Superset", params:"4 Set × 15+25 Rep · /50kg", muscle:"Caloolaha oo dhan", how:"Isku xig", link:"https://www.youtube.com/results?search_query=ab+wheel+cable+crunch+superset"},
-          {icon:"🎯", name:"Oblique Giant Set", params:"4 goor · 3 jimicsi", muscle:"Obliques + Core", how:"Side bend → Rotary torso → Oblique crunch × 25 kasta — 45 ilbiriqsi nasasho", link:"https://www.youtube.com/results?search_query=oblique+giant+set"},
-          {icon:"❤️", name:"Treadmill + Incline Superset HIIT", params:"20 daqiiqo", muscle:"Dufanka", how:"1 min flat sprint, 1 min 12% incline walk × 10", link:"https://www.youtube.com/results?search_query=treadmill+incline+HIIT+superset"}
-        ]
-      },
-      {day:37, name:"Talaadada", focus:"LUGAHA XOOG + CALOOL", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🦵", name:"Leg Press Max Weight", params:"4 Set × 6 Rep · 180-200kg", muscle:"Quads, Glutes", how:"Culus ugu weyn, si tartiib ah hoos, dhakhso kor", link:"https://www.youtube.com/results?search_query=leg+press+max+weight"},
-          {icon:"🦵", name:"Hack Squat to Failure", params:"3 Set × Failure · 110kg", muscle:"Quads, Glutes", how:"Ilaa aadan karin", link:"https://www.youtube.com/results?search_query=hack+squat+to+failure"},
-          {icon:"🦵", name:"Leg Extension + Curl Giant Set", params:"4 Set × 15+12+Fail", muscle:"Lugaha oo dhan", how:"Extension → Curl → Hip kickback — nasasho 90 ilbiriqsi", link:"https://www.youtube.com/results?search_query=leg+extension+curl+giant+set"},
-          {icon:"🎯", name:"Core Circuit Max Effort", params:"5 goor · Failure", muscle:"Caloolaha oo dhan", how:"Dhamaan jimicsiyada, ilaa aadan karin kasta", link:"https://www.youtube.com/results?search_query=core+circuit+max+effort"},
-          {icon:"❤️", name:"Bike Max Sprint", params:"20 daqiiqo", muscle:"Lugaha + Dufanka", how:"10 ilbiriqsi max sprint, 50 ilbiriqsi nabad × 20", link:"https://www.youtube.com/results?search_query=bike+max+sprint+intervals"}
-        ]
-      },
-      {day:38, name:"Arbacada", focus:"DHAB + BICEP + CALOOL", type:["strength","core"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🔝", name:"Lat Pulldown Heavy Superset", params:"4 Set × 8+8 Rep · 75+60kg (grip kala duwan)", muscle:"Lats oo dhan", how:"Wide grip → Narrow grip isku xig, nasasho yar", link:"https://www.youtube.com/results?search_query=lat+pulldown+superset+grips"},
-          {icon:"🔝", name:"Cable Row Max Weight", params:"4 Set × 6 Rep · 85kg", muscle:"Dhabarka dhexe", how:"Culus badan, gacmahai laabka soo u jiib", link:"https://www.youtube.com/results?search_query=cable+row+heavy"},
-          {icon:"💪", name:"Bicep Giant Set", params:"3 goor · 3 jimicsi", muscle:"Bicep oo dhan", how:"Preacher curl → Cable curl → Hammer curl — nasasho yar", link:"https://www.youtube.com/results?search_query=bicep+giant+set"},
-          {icon:"🎯", name:"Ab Superset Heavy", params:"5 Set × Failure kasta", muscle:"Caloolaha oo dhan", how:"Ilaa aadan karin", link:"https://www.youtube.com/results?search_query=ab+superset+heavy"},
-          {icon:"❤️", name:"Rowing Machine Pyramid", params:"20 daqiiqo", muscle:"Jirka oo dhan", how:"500m → 400m → 300m → 200m → 100m — nasasho kala duwan", link:"https://www.youtube.com/results?search_query=rowing+machine+pyramid"}
-        ]
-      },
-      {day:39, name:"Khamiista", focus:"GARAB + TRICEP + CALOOL", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"💪", name:"Shoulder Press Max", params:"5 Set × 6 Rep · 60kg", muscle:"Garabka oo dhan", how:"Culus aad u badan, kor u qaad si buuxda", link:"https://www.youtube.com/results?search_query=shoulder+press+machine+max"},
-          {icon:"💪", name:"Lateral + Rear Delt Giant Set", params:"4 goor · 3 jimicsi", muscle:"Garabka dhexe + dambe", how:"Lateral raise → Rear delt fly → Face pull × 20+15+15 kasta", link:"https://www.youtube.com/results?search_query=shoulder+giant+set"},
-          {icon:"💪", name:"Tricep Giant Set", params:"4 goor · 3 jimicsi", muscle:"Tricep oo dhan", how:"Pushdown → Overhead ext → Kickback cable × 15+12+12", link:"https://www.youtube.com/results?search_query=tricep+giant+set"},
-          {icon:"🎯", name:"Core Max Circuit", params:"5 goor", muscle:"Caloolaha oo dhan", how:"Dhamaan jimicsiyada, xoogga max ku sii", link:"https://www.youtube.com/results?search_query=core+max+circuit"},
-          {icon:"❤️", name:"HIIT Cardio Extreme", params:"20 daqiiqo", muscle:"Dufanka", how:"Tabata protocol: 20/10 × 20", link:"https://www.youtube.com/results?search_query=HIIT+extreme+cardio+gym"}
-        ]
-      },
-      {day:40, name:"Jimcaha", focus:"JIRKA OO DHAN — QIYAAS CUSUB", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Max Lift Testing Day", params:"1 Rep Max Test — Chest + Leg + Row", muscle:"Jirka oo dhan", how:"Qiyaas culus ugu weyn aad gaadhi karto, si tartiib ah kor u geli", link:"https://www.youtube.com/results?search_query=1+rep+max+test+gym"},
-          {icon:"🎯", name:"Ab Final Blast", params:"5 goor · Failure kasta", muscle:"Caloolaha oo dhan", how:"Dhamaan jimicsiyada caloolaha, failure ilaa dhammaadka", link:"https://www.youtube.com/results?search_query=ab+final+blast"},
-          {icon:"❤️", name:"Cardio Max HIIT", params:"20 daqiiqo", muscle:"Dufanka", how:"Max effort, 30/30 protocol", link:"https://www.youtube.com/results?search_query=cardio+max+HIIT"}
-        ]
-      },
-      {day:41, name:"Sabti", focus:"LAAB + LUGAHA — DHAMMAAD ISBUUC", type:["strength","core"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Chest + Shoulders Giant Set", params:"4 goor · 4 jimicsi", muscle:"Laabta + Garabka", how:"Chest press → Incline press → Shoulder press → Pec deck — 2 min nasasho", link:"https://www.youtube.com/results?search_query=chest+shoulder+giant+set"},
-          {icon:"🦵", name:"Leg Full Giant Set", params:"4 goor · 5 jimicsi", muscle:"Lugaha oo dhan", how:"Leg press → Hack squat → Extension → Curl → Calf raise — 2 min nasasho", link:"https://www.youtube.com/results?search_query=leg+giant+set+full"},
-          {icon:"🎯", name:"Core Superset Extreme", params:"5 Set × Failure", muscle:"Caloolaha oo dhan", how:"Cable crunch + Leg raise + Oblique × Failure", link:"https://www.youtube.com/results?search_query=core+superset+extreme"},
-          {icon:"❤️", name:"Final HIIT Combo", params:"20 daqiiqo", muscle:"Dufanka", how:"Treadmill + Bike + Elliptical — 7 min kasta", link:"https://www.youtube.com/results?search_query=HIIT+combo+gym"}
-        ]
-      },
-      {
-        day:42, name:"Axada", focus:"NASASHO", type:["rest"],
-        duration:"Maalin buuxda nasasho",
-        isRest: true,
-        restTips:["Massage full body","Foam rolling","Biyo badan","Hurdada 9+ saacadood","Protein + Carbs cun"]
-      }
-    ]
-  },
-  {
-    week: 7, name: "DHAMMAADKA XOOGAN", desc: "Maalmaha ugu adagna — qiyaaska ugu sarreeya, natiijada maxima",
-    intensity: 9, days: [
-      {day:43, name:"Isniinta", focus:"LAAB + GARAB + CALOOL FINAL", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Chest Press Max Final", params:"5 Set × (8-6-4-2-1 Rep) · Pyramid Max", muscle:"Laabta oo dhan", how:"Rep ugu yar, culus ugu weyn — pyramid final", link:"https://www.youtube.com/results?search_query=chest+press+final+max"},
-          {icon:"🏋️", name:"Pec Deck + Cable Fly Giant Set", params:"4 goor · Failure kasta", muscle:"Laabta dhexe", how:"Isku xig ilaa aadan karin", link:"https://www.youtube.com/results?search_query=chest+giant+set+failure"},
-          {icon:"💪", name:"Shoulder Giant Set Final", params:"4 goor · 3 jimicsi Failure", muscle:"Garabka oo dhan", how:"Press + Lateral + Rear delt — failure kasta", link:"https://www.youtube.com/results?search_query=shoulder+giant+set+failure"},
-          {icon:"🎯", name:"Core Final Blast", params:"6 Set × Failure", muscle:"Caloolaha oo dhan", how:"Dhamaan jimicsiyada, failure ilaa dhammaadka", link:"https://www.youtube.com/results?search_query=core+final+blast"},
-          {icon:"❤️", name:"HIIT Cardio Final", params:"20 daqiiqo", muscle:"Dufanka", how:"Max protocol: 20/10 tabata", link:"https://www.youtube.com/results?search_query=HIIT+final+cardio"}
-        ]
-      },
-      {day:44, name:"Talaadada", focus:"LUGAHA FINAL + CALOOL", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🦵", name:"Leg Press Final Max", params:"5 Set × (15-12-8-6-Fail) Rep · Pyramid Max", muscle:"Quads, Glutes, Hamstrings", how:"Pyramid final, failure last set", link:"https://www.youtube.com/results?search_query=leg+press+final+pyramid"},
-          {icon:"🦵", name:"Full Leg Giant Set Final", params:"4 goor · 5 jimicsi Failure", muscle:"Lugaha oo dhan", how:"Leg press → Hack → Extension → Curl → Calf — failure kasta", link:"https://www.youtube.com/results?search_query=full+leg+giant+set"},
-          {icon:"🎯", name:"Ab Max Blast", params:"6 Set × Failure", mission:"Caloolaha oo dhan", how:"Jimicsiyada oo dhan, failure ilaa dhammaad", link:"https://www.youtube.com/results?search_query=ab+max+blast"},
-          {icon:"❤️", name:"Stairmaster Max", params:"20 daqiiqo", muscle:"Lugaha + Dufanka", how:"Max xoog — tartibba kor u kac si dhakhso ah", link:"https://www.youtube.com/results?search_query=stairmaster+max+effort"}
-        ]
-      },
-      {day:45, name:"Arbacada", focus:"DHAB + BICEP FINAL + CALOOL", type:["strength","core"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🔝", name:"Full Back Giant Set Final", params:"4 goor · 4 jimicsi Failure", muscle:"Dhabarka oo dhan", how:"Lat pull wide → Lat pull narrow → Row → T-bar — failure kasta", link:"https://www.youtube.com/results?search_query=back+giant+set+final"},
-          {icon:"💪", name:"Bicep Final Giant Set", params:"4 goor · 3 jimicsi Failure", muscle:"Bicep oo dhan", how:"Preacher → Cable → Hammer — failure kasta", link:"https://www.youtube.com/results?search_query=bicep+final+giant+set"},
-          {icon:"🎯", name:"Core Extreme Final", params:"6 Set × Failure", muscle:"Caloolaha oo dhan", how:"Max effort, failure", link:"https://www.youtube.com/results?search_query=core+extreme+final"},
-          {icon:"❤️", name:"Rowing Max Effort Final", params:"20 daqiiqo", muscle:"Jirka oo dhan", how:"2000m as fast as possible, rest, 1000m max", link:"https://www.youtube.com/results?search_query=rowing+machine+max+effort+2000m"}
-        ]
-      },
-      {day:46, name:"Khamiista", focus:"GACMAHA FINAL + CALOOL", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"💪", name:"Tricep Giant Set Final", params:"4 goor · 3 jimicsi Failure", muscle:"Tricep oo dhan", how:"Pushdown → Overhead → Kickback — failure kasta", link:"https://www.youtube.com/results?search_query=tricep+giant+set+final"},
-          {icon:"💪", name:"Full Arms Circuit Final", params:"4 goor · 6 jimicsi", muscle:"Gacmaha oo dhan", how:"Curl varieties + Tricep varieties isku xig — failure", link:"https://www.youtube.com/results?search_query=full+arms+circuit+failure"},
-          {icon:"🎯", name:"Core Max Final Circuit", params:"6 Set × Failure kasta", muscle:"Caloolaha oo dhan", how:"Dhamaan jimicsiyada max effort", link:"https://www.youtube.com/results?search_query=core+max+final+circuit"},
-          {icon:"❤️", name:"HIIT Extreme Final", params:"20 daqiiqo", muscle:"Dufanka", how:"Tabata extreme: 20/10 × 20 rounds max effort", link:"https://www.youtube.com/results?search_query=HIIT+extreme+final+tabata"}
-        ]
-      },
-      {day:47, name:"Jimcaha", focus:"JIRKA OO DHAN — KULANKA AKHIIR", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏋️", name:"Ultimate Full Body Giant Set", params:"4 goor · 8 jimicsi", muscle:"Jirka oo dhan", how:"Leg press × 15 → Chest press × 12 → Row × 12 → Shoulder × 10 → Curl × 12 → Pushdown × 15 → Calf × 20 → Core × 20 — 2 min nasasho", link:"https://www.youtube.com/results?search_query=ultimate+full+body+giant+set"},
-          {icon:"🎯", name:"Core Ultra Final", params:"6 Set × Failure", muscle:"Caloolaha oo dhan", how:"Cable crunch → Leg raise → Oblique → Ab machine → Roman chair — failure", link:"https://www.youtube.com/results?search_query=core+ultra+final"},
-          {icon:"❤️", name:"Triple Cardio HIIT Final", params:"21 daqiiqo", muscle:"Dufanka oo dhan", how:"7 min treadmill max, 7 min bike sprint, 7 min elliptical max", link:"https://www.youtube.com/results?search_query=triple+HIIT+cardio+final"}
-        ]
-      },
-      {day:48, name:"Sabti", focus:"CALOOL BUUXA + HIIT", type:["core","hiit"], duration:"~100 daqiiqo",
-        exercises:[
-          {icon:"🎯", name:"Cable Crunch Ultra", params:"5 Set × 30 Rep · 55kg", muscle:"Caloolaha sare", how:"Slow rep, xoogga caloolaha oo buuxa", link:"https://www.youtube.com/results?search_query=cable+crunch+ultra"},
-          {icon:"🎯", name:"Hanging Leg Raise Ultra", params:"5 Set × 20 Rep", muscle:"Caloolaha hoose", how:"Cagaha toosan kor u qaad, si tartiib ah hoos u celi", link:"https://www.youtube.com/results?search_query=hanging+leg+raise"},
-          {icon:"🎯", name:"Ab Machine Extreme", params:"5 Set × 30 Rep · 50kg", muscle:"Caloolaha hore", how:"Slow eccentric, 3 ilbiriqsi hoos", link:"https://www.youtube.com/results?search_query=ab+machine+extreme"},
-          {icon:"🎯", name:"Rotary Torso Extreme", params:"5 Set × 30 Rep · 40kg (dhinac kasta)", muscle:"Obliques oo dhan", how:"Tartibba leexo, si buuxda", link:"https://www.youtube.com/results?search_query=rotary+torso+extreme"},
-          {icon:"🎯", name:"Ab Coaster Ultra", params:"4 Set × 20 Rep", muscle:"Caloolaha oo dhan", how:"Si tartiib ah, xoogga caloolaha", link:"https://www.youtube.com/results?search_query=ab+coaster+machine"},
-          {icon:"🎯", name:"Roman Chair Extreme", params:"4 Set × 20 Rep", muscle:"Caloolaha hoose", how:"Cagaha toosan kor u qaad", link:"https://www.youtube.com/results?search_query=roman+chair+extreme"},
-          {icon:"❤️", name:"HIIT Cardio Absolute Final", params:"30 daqiiqo", muscle:"Dufanka oo dhan", how:"10 min treadmill HIIT + 10 min bike sprint + 10 min elliptical max — natiijiyo maxima", link:"https://www.youtube.com/results?search_query=HIIT+cardio+absolute+final+30+minutes"}
-        ]
-      },
-      {day:49, name:"Axada", focus:"NASASHO", type:["rest"],
-        duration:"Maalin buuxda nasasho",
-        isRest: true,
-        restTips:["Nasasho dhammaad","Biyo + Electrolytes","Massage buuxa","Hurdada 10 saacadood","Qiyaas natiijadaada!"]
-      },
-      {day:50, name:"Isniinta", focus:"🏆 MAALIN 50 — NATIIJADA!", type:["strength","core","hiit"], duration:"~120 daqiiqo",
-        exercises:[
-          {icon:"🏆", name:"1 Rep Max Test — Chest Press", params:"Test Max Weight · Bilow 60kg, kor u geli", muscle:"Laabta", how:"Qiyaas culus ugu weyn aad gaadhi karto — natiijiyo!", link:"https://www.youtube.com/results?search_query=1+rep+max+test+chest"},
-          {icon:"🏆", name:"1 Rep Max Test — Leg Press", params:"Test Max Weight · Bilow 150kg, kor u geli", muscle:"Lugaha", how:"Culus ugu weyn — natiijiyo!", link:"https://www.youtube.com/results?search_query=1+rep+max+test+leg+press"},
-          {icon:"🏆", name:"1 Rep Max Test — Lat Pulldown", params:"Test Max Weight · Bilow 65kg", muscle:"Dhabarka", how:"Culus ugu weyn — natiijiyo!", link:"https://www.youtube.com/results?search_query=1+rep+max+lat+pulldown"},
-          {icon:"🎯", name:"Final Core Challenge", params:"Dhamaan jimicsiyada × 25 Rep kasta · 1 goor", muscle:"Caloolaha oo dhan", how:"Maalin 50 — caloolaha oo dhamaan ku samee hal goor", link:"https://www.youtube.com/results?search_query=final+core+challenge+abs"},
-          {icon:"❤️", name:"Victory Cardio", params:"20 daqiiqo · Fariidada!", muscle:"Wadnaha", how:"HIIT final — ku dhamee si xoogan!", link:"https://www.youtube.com/results?search_query=victory+HIIT+cardio"},
-          {icon:"🏆", name:"NATIIJADA QIYAAS", params:"Muuqaal + Miisaan + Qiyaas", muscle:"Jirka oo dhan", how:"Waxaad gaartay 50 maalmood — qiyaas isbadalka!", link:"https://www.youtube.com/results?search_query=fitness+transformation+before+after"}
-        ]
-      }
-    ]
-  }
+// DATA
+const cardioMachines=[
+  {n:'Treadmill HIIT Sprints',d:'10×30sec sprint (heer 8) + 30sec nasasho',i:'🏃',yt:'https://www.youtube.com/results?search_query=treadmill+HIIT+sprint+intervals'},
+  {n:'Stationary Bike HIIT',d:'10×40sec xoog + 20sec nasasho',i:'🚴',yt:'https://www.youtube.com/results?search_query=stationary+bike+HIIT+workout'},
+  {n:'Rowing Machine',d:'3×3 daqiiqo xoog dhexe, 60sec nasasho',i:'🚣',yt:'https://www.youtube.com/results?search_query=rowing+machine+workout+gym'},
+  {n:'Stair Climber',d:'20 daqiiqo joojin la\'aaan, heer 7',i:'🪜',yt:'https://www.youtube.com/results?search_query=stair+climber+machine+workout'},
+  {n:'Elliptical Trainer',d:'25 daqiiqo resistance 8, gacmaha wada dhaqaaji',i:'⚡',yt:'https://www.youtube.com/results?search_query=elliptical+trainer+workout+gym'},
+  {n:'Battle Ropes',d:'8×40sec kulul + 20sec naso',i:'🔥',yt:'https://www.youtube.com/results?search_query=battle+ropes+HIIT+gym'},
+  {n:'Jacob\'s Ladder',d:'3×2.5 daqiiqo, rest 90sec',i:'⬆️',yt:'https://www.youtube.com/results?search_query=jacobs+ladder+gym+cardio'},
+  {n:'Ski Erg Machine',d:'5×1 daqiiqo xoog, 30sec naso',i:'⛷️',yt:'https://www.youtube.com/results?search_query=ski+erg+machine+workout'},
+  {n:'Assault Bike',d:'8×20sec all-out + 40sec naso',i:'💨',yt:'https://www.youtube.com/results?search_query=assault+bike+HIIT+workout'},
+  {n:'Cable Cardio Circuit',d:'Jumping + cable pulls circuit 15 min',i:'🔗',yt:'https://www.youtube.com/results?search_query=cable+machine+cardio+workout'},
 ];
 
-// ============================
-// STATE
-// ============================
-let completed = JSON.parse(localStorage.getItem('gym50_completed') || '[]');
+const absPool=[
+  {n:'Cable Crunch',yt:'https://www.youtube.com/results?search_query=cable+crunch+abs+tutorial'},
+  {n:'Hanging Leg Raise',yt:'https://www.youtube.com/results?search_query=hanging+leg+raise+abs'},
+  {n:'Ab Wheel Rollout',yt:'https://www.youtube.com/results?search_query=ab+wheel+rollout+tutorial'},
+  {n:'Plank (Gym)',yt:'https://www.youtube.com/results?search_query=plank+abs+gym'},
+  {n:'Russian Twist + Plate',yt:'https://www.youtube.com/results?search_query=russian+twists+weight+plate'},
+  {n:'Cable Woodchop',yt:'https://www.youtube.com/results?search_query=cable+woodchop+abs'},
+  {n:'Decline Crunch',yt:'https://www.youtube.com/results?search_query=decline+crunch+abs+gym'},
+  {n:'Seated Ab Machine',yt:'https://www.youtube.com/results?search_query=seated+ab+crunch+machine'},
+];
 
-function saveCompleted() {
-  localStorage.setItem('gym50_completed', JSON.stringify(completed));
+const pushPool=[
+  {n:'Barbell Bench Press',d:'Laabta aasaaska',wb:20,wi:2.5,yt:'https://www.youtube.com/results?search_query=barbell+bench+press+tutorial'},
+  {n:'Incline DB Press',d:'Laabta sare',wb:8,wi:1,yt:'https://www.youtube.com/results?search_query=incline+dumbbell+press'},
+  {n:'Machine Chest Press',d:'Laabta mashiinka',wb:20,wi:2.5,yt:'https://www.youtube.com/results?search_query=machine+chest+press+tutorial'},
+  {n:'Cable Chest Fly',d:'Laabta ballaarinta',wb:5,wi:1,yt:'https://www.youtube.com/results?search_query=cable+fly+chest+tutorial'},
+  {n:'Overhead Press (Machine)',d:'Garabka',wb:15,wi:2,yt:'https://www.youtube.com/results?search_query=overhead+press+machine'},
+  {n:'Tricep Pushdown (V-Bar)',d:'Gacanta sare',wb:10,wi:1.5,yt:'https://www.youtube.com/results?search_query=tricep+pushdown+v+bar'},
+  {n:'Lateral Raise (DB)',d:'Garabka dhinacyada',wb:4,wi:0.5,yt:'https://www.youtube.com/results?search_query=lateral+raise+dumbbell'},
+];
+const pullPool=[
+  {n:'Lat Pulldown (Wide)',d:'Dhabarka sare',wb:30,wi:2.5,yt:'https://www.youtube.com/results?search_query=lat+pulldown+wide+grip'},
+  {n:'Seated Cable Row',d:'Dhabarka dhexe',wb:25,wi:2.5,yt:'https://www.youtube.com/results?search_query=seated+cable+row+tutorial'},
+  {n:'EZ Bar Bicep Curl',d:'Gacanta hore',wb:10,wi:1,yt:'https://www.youtube.com/results?search_query=ez+bar+bicep+curl'},
+  {n:'Face Pull (Cable)',d:'Garabka dhabarka',wb:10,wi:1,yt:'https://www.youtube.com/results?search_query=face+pull+cable'},
+  {n:'Hammer Curl (DB)',d:'Gacanta hore dhinac',wb:8,wi:1,yt:'https://www.youtube.com/results?search_query=hammer+curl+dumbbell'},
+  {n:'T-Bar Row (Machine)',d:'Dhabarka xoogga',wb:20,wi:2.5,yt:'https://www.youtube.com/results?search_query=t+bar+row+machine'},
+  {n:'Close Grip Pulldown',d:'Dhabarka hoose',wb:25,wi:2,yt:'https://www.youtube.com/results?search_query=close+grip+pulldown'},
+];
+const legsPool=[
+  {n:'Leg Press (Machine)',d:'Lugta mashiinka',wb:40,wi:5,yt:'https://www.youtube.com/results?search_query=leg+press+machine+tutorial'},
+  {n:'Smith Machine Squat',d:'Squat mashiinka',wb:30,wi:2.5,yt:'https://www.youtube.com/results?search_query=smith+machine+squat'},
+  {n:'Leg Extension (Machine)',d:'Lugta hore',wb:20,wi:2,yt:'https://www.youtube.com/results?search_query=leg+extension+machine'},
+  {n:'Lying Leg Curl',d:'Garbaha ka daba',wb:15,wi:2,yt:'https://www.youtube.com/results?search_query=lying+leg+curl+machine'},
+  {n:'Hip Thrust (Barbell)',d:'Garbaha iyo geesaha',wb:30,wi:5,yt:'https://www.youtube.com/results?search_query=hip+thrust+barbell+tutorial'},
+  {n:'Calf Press (Machine)',d:'Lugaha hoostooda',wb:20,wi:2.5,yt:'https://www.youtube.com/results?search_query=calf+press+machine'},
+  {n:'Seated Leg Curl',d:'Garbaha fadhiga',wb:15,wi:2,yt:'https://www.youtube.com/results?search_query=seated+leg+curl+machine'},
+];
+const fullPool=[
+  {n:'Barbell Deadlift',d:'Dhamaan jirka',wb:40,wi:5,yt:'https://www.youtube.com/results?search_query=barbell+deadlift+tutorial'},
+  {n:'Cable Row (Wide)',d:'Dhabarka ballaar',wb:25,wi:2.5,yt:'https://www.youtube.com/results?search_query=wide+grip+cable+row'},
+  {n:'Goblet Squat (DB)',d:'Lugta + core',wb:12,wi:2,yt:'https://www.youtube.com/results?search_query=goblet+squat+dumbbell'},
+  {n:'DB Shoulder Press',d:'Garabka dumbbell',wb:8,wi:1,yt:'https://www.youtube.com/results?search_query=dumbbell+shoulder+press'},
+  {n:'Chest Supported Row',d:'Dhabarka amaan',wb:15,wi:2,yt:'https://www.youtube.com/results?search_query=chest+supported+row'},
+  {n:'Tricep Dips (Machine)',d:'Gacanta sare',wb:10,wi:2,yt:'https://www.youtube.com/results?search_query=tricep+dips+machine'},
+  {n:'Incline Cable Fly',d:'Laabta sare',wb:5,wi:1,yt:'https://www.youtube.com/results?search_query=incline+cable+fly+chest'},
+];
+const hiitPool=[
+  {n:'Barbell Bench Press',d:'Laabta — HIIT superset',wb:15,wi:2,yt:'https://www.youtube.com/results?search_query=barbell+bench+press+tutorial'},
+  {n:'Lat Pulldown',d:'Dhabarka — HIIT superset',wb:25,wi:2,yt:'https://www.youtube.com/results?search_query=lat+pulldown+tutorial'},
+  {n:'Leg Press',d:'Lugta — HIIT superset',wb:35,wi:4,yt:'https://www.youtube.com/results?search_query=leg+press+machine+tutorial'},
+  {n:'Cable Row',d:'Dhabarka — HIIT superset',wb:20,wi:2,yt:'https://www.youtube.com/results?search_query=seated+cable+row+tutorial'},
+  {n:'DB Shoulder Press',d:'Garabka — HIIT superset',wb:6,wi:1,yt:'https://www.youtube.com/results?search_query=dumbbell+shoulder+press'},
+  {n:'Goblet Squat',d:'Lugta — HIIT superset',wb:10,wi:1.5,yt:'https://www.youtube.com/results?search_query=goblet+squat'},
+  {n:'Tricep Pushdown',d:'Gacanta — HIIT superset',wb:8,wi:1,yt:'https://www.youtube.com/results?search_query=tricep+pushdown'},
+];
+
+const dayTypes=['push','pull','legs','hiit','full'];
+const dayTypeLbl={push:'PUSH 💪',pull:'PULL 🏋',legs:'LEGS 🦵',hiit:'HIIT 🔥',full:'FULL BODY ⚡'};
+const dayTypeCls={push:'tb-push',pull:'tb-pull',legs:'tb-legs',hiit:'tb-hiit',full:'tb-full'};
+const dayNames=['Isniin','Talaado','Arbaco','Khamiis','Jimce','Sabti','Axad'];
+
+function getPool(t){
+  if(t==='push')return pushPool;
+  if(t==='pull')return pullPool;
+  if(t==='legs')return legsPool;
+  if(t==='hiit')return hiitPool;
+  return fullPool;
 }
 
-// ============================
-// RENDER
-// ============================
-function renderDots() {
-  const container = document.getElementById('progressDots');
-  container.innerHTML = '';
-  let allDays = [];
-  weeks.forEach(w => w.days.forEach(d => allDays.push(d)));
+function getSetsReps(wk){
+  const ph=wk<=4?1:wk<=8?2:wk<=13?3:wk<=17?4:5;
+  return [{1:'3×10–12',2:'4×8–10',3:'4×8',4:'5×6–8',5:'4×10–12'}[ph],ph];
+}
 
-  allDays.forEach((d, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (d.isRest ? ' rest' : '') + (completed.includes(d.day) ? ' done' : '');
-    if (i === completed.filter(x => !allDays.find(dd => dd.day === x)?.isRest).length && !completed.includes(d.day)) {
-      dot.classList.add('today');
+function getWt(ex,wk){
+  if(!ex.wb)return'Miisaankaaga';
+  return(ex.wb+(wk-1)*ex.wi).toFixed(1).replace(/\.0$/,'')+'kg';
+}
+
+// STORAGE
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function load(k){try{return JSON.parse(localStorage.getItem(k)||'{}');}catch(e){return{};}}
+let checks=load('g150_ck');
+let dayDone=load('g150_dd');
+
+// BUILD TRACKER
+function buildTracker(){
+  const tabsEl=document.getElementById('weekTabs');
+  const panelsEl=document.getElementById('weekPanels');
+  for(let w=1;w<=21;w++){
+    const btn=document.createElement('button');
+    btn.className='week-tab'+(w===1?' active':'');
+    btn.textContent='ISB '+w;
+    btn.onclick=(function(ww,b){return function(){
+      document.querySelectorAll('.week-tab').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      document.querySelectorAll('.week-panel').forEach(x=>x.classList.remove('active'));
+      document.getElementById('wp-'+ww).classList.add('active');
+    };})(w,btn);
+    tabsEl.appendChild(btn);
+    const panel=document.createElement('div');
+    panel.className='week-panel'+(w===1?' active':'');
+    panel.id='wp-'+w;
+    panel.innerHTML=buildWeek(w);
+    panelsEl.appendChild(panel);
+  }
+}
+
+function buildWeek(wk){
+  const start=(wk-1)*7;
+  const [setsreps,phase]=getSetsReps(wk);
+  const phaseLbls=['','BILAABASHADA','XOOGGA KOBCIN','KULAYLKA','HEERKA SARE','DHAMAYSIRKA'];
+  let html=`<div style="background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;gap:14px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--fire);opacity:.2;line-height:1;">W${wk}</div>
+    <div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:2px;">ISBUUC ${wk} — ${phaseLbls[phase]}</div>
+      <div style="font-size:11px;color:var(--text2);">📅 Maalin ${start+1}–${start+7} &nbsp;·&nbsp; ${setsreps} &nbsp;·&nbsp; Marxaladda ${phase}</div>
+    </div>
+  </div>
+  <div class="days-cols">`;
+
+  for(let d=0;d<7;d++){
+    const gd=start+d+1;
+    const isWeekend=d>=5;
+    const type=isWeekend?'rest':dayTypes[d%5];
+    const isDone=!!dayDone['d'+gd];
+
+    if(isWeekend){
+      html+=`<div class="day-card rest-card">
+        <div class="day-hdr"><div class="day-hdr-l">
+          <div class="day-num">${gd}</div>
+          <div><div class="d-name">${dayNames[d]}</div><div class="d-sub">Maalinta ${gd}</div></div>
+        </div><span class="type-badge tb-rest">FASAX 😌</span></div>
+        <div class="day-body" style="padding:12px 14px;font-size:12px;color:var(--text2);line-height:1.9;">
+          😴 <b style="color:var(--text)">Nasasho Buuxda</b><br>
+          Hurdo 8+ saacadood · Biyo cab · Cun cunto fiican<br>
+          Muscle-ku hurdada gudahood ayuu dhisaa 💪
+        </div>
+      </div>`;
+      continue;
     }
-    dot.textContent = d.day;
-    dot.title = `Maalin ${d.day}: ${d.focus}`;
-    dot.onclick = () => scrollToDay(d.day);
-    container.appendChild(dot);
-  });
 
-  const count = completed.length;
-  document.getElementById('completedCount').textContent = count;
-  document.getElementById('progressText').textContent = `${count} / 50 Maalmood`;
-  document.getElementById('progressBar').style.width = `${(count/50)*100}%`;
-}
+    const pool=getPool(type);
+    const cardio=cardioMachines[gd%cardioMachines.length];
+    const ab1=absPool[gd%absPool.length];
+    const ab2=absPool[(gd+4)%absPool.length];
+    // 5 main exercises from pool varied by day
+    const mainExs=[];
+    for(let i=0;i<5;i++) mainExs.push(pool[(gd+i)%pool.length]);
 
-function scrollToDay(dayNum) {
-  const el = document.getElementById('day-' + dayNum);
-  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
-}
+    html+=`<div class="day-card ${isDone?'completed':''}" id="dc-${gd}">
+      <div class="day-hdr"><div class="day-hdr-l">
+        <div class="day-num">${gd}</div>
+        <div><div class="d-name">${dayNames[d]}</div><div class="d-sub">Maalin ${gd} · ${setsreps}</div></div>
+      </div><span class="type-badge ${dayTypeCls[type]}">${dayTypeLbl[type]}</span></div>
+      <div class="day-body">`;
 
-function toggleComplete(dayNum, btn) {
-  if (completed.includes(dayNum)) {
-    completed = completed.filter(d => d !== dayNum);
-    btn.classList.remove('done');
-    btn.textContent = '○ DHAMMAAD KU CALAAMADEE';
-    btn.closest('.day-card').classList.remove('completed');
-  } else {
-    completed.push(dayNum);
-    btn.classList.add('done');
-    btn.textContent = '✓ LA DHAMMEEYAY!';
-    btn.closest('.day-card').classList.add('completed');
+    // 5 main exercises
+    mainExs.forEach((ex,i)=>{
+      const ck='d'+gd+'_e'+i;
+      const done=!!checks[ck];
+      html+=`<div class="ex-row">
+        <div class="ex-chk ${done?'done':''}" id="ck-${ck}" onclick="togCk('${ck}',this)"></div>
+        <div class="ex-info">
+          <div class="ex-name">${ex.n}</div>
+          <div class="ex-sets">${setsreps} &nbsp;·&nbsp; ${ex.d}</div>
+          <div class="ex-wt">⚖️ ${getWt(ex,wk)}</div>
+          <a href="${ex.yt}" target="_blank" class="ex-yt">▶ YouTube — Habka</a>
+        </div>
+      </div>`;
+    });
+
+    // 2 abs exercises
+    [ab1,ab2].forEach((ab,i)=>{
+      const ck='d'+gd+'_ab'+i;
+      const done=!!checks[ck];
+      html+=`<div class="ex-row">
+        <div class="ex-chk ${done?'done':''}" id="ck-${ck}" onclick="togCk('${ck}',this)"></div>
+        <div class="ex-info">
+          <div class="ex-name" style="color:var(--fire)">🔥 ${ab.n}</div>
+          <div class="ex-sets">3×15–20 reps &nbsp;·&nbsp; Calool daily</div>
+          <div class="ex-wt">⚖️ ${10+Math.floor((wk-1)*1.5)}–${15+Math.floor((wk-1)*2)}kg</div>
+          <a href="${ab.yt}" target="_blank" class="ex-yt">▶ YouTube — Habka</a>
+        </div>
+      </div>`;
+    });
+
+    // Cardio machine
+    const cck='d'+gd+'_c';
+    const cdone=!!checks[cck];
+    html+=`<div class="cardio-blk">
+      <div class="cardio-lbl">🏃 CARDIO MASHIINKA MAANTA</div>
+      <div class="cardio-name">${cardio.i} ${cardio.n}</div>
+      <div class="cardio-det">${cardio.d}</div>
+      <div class="cardio-row">
+        <div class="ex-chk ${cdone?'done':''}" id="ck-${cck}" onclick="togCk('${cck}',this)"></div>
+        <span style="font-size:11px;color:var(--text2);">La dhammeeyay</span>
+        <a href="${cardio.yt}" target="_blank" class="ex-yt" style="margin-left:auto;">▶ YouTube</a>
+      </div>
+    </div>`;
+
+    html+=`<button class="done-btn ${isDone?'done':''}" id="db-${gd}" onclick="togDay(${gd})">${isDone?'✅ MAALINTA LA DHAMMEEYAY':'☐ Maalinta Dhamaystir'}</button>`;
+    html+=`</div></div>`;
   }
-  saveCompleted();
-  renderDots();
-}
-
-function getIntensityDots(level) {
-  let html = '';
-  for (let i = 1; i <= 9; i++) {
-    html += `<div class="intensity-dot${i <= level ? ' filled' : ''}"></div>`;
-  }
+  html+=`</div>`;
   return html;
 }
 
-function getTagHTML(types) {
-  return types.map(t => {
-    const map = {hiit:'tag-hiit', strength:'tag-strength', cardio:'tag-cardio', rest:'tag-rest', core:'tag-core'};
-    const labels = {hiit:'HIIT', strength:'XOOG', cardio:'CARDIO', rest:'NASASHO', core:'CALOOL'};
-    return `<span class="tag ${map[t]}">${labels[t]}</span>`;
+function togCk(id,el){
+  checks[id]=!checks[id];
+  save('g150_ck',checks);
+  el.classList.toggle('done',!!checks[id]);
+}
+
+function togDay(gd){
+  dayDone['d'+gd]=!dayDone['d'+gd];
+  save('g150_dd',dayDone);
+  const done=!!dayDone['d'+gd];
+  const card=document.getElementById('dc-'+gd);
+  const btn=document.getElementById('db-'+gd);
+  if(card)card.classList.toggle('completed',done);
+  if(btn){btn.classList.toggle('done',done);btn.textContent=done?'✅ MAALINTA LA DHAMMEEYAY':'☐ Maalinta Dhamaystir';}
+  refreshProgress();
+}
+
+// PROGRESS
+function countDone(){let c=0;for(let d=1;d<=150;d++){if((d-1)%7<5&&dayDone['d'+d])c++;}return c;}
+function totalDays(){let c=0;for(let d=1;d<=150;d++){if((d-1)%7<5)c++;}return c;}
+
+function refreshProgress(){
+  const done=countDone(),total=totalDays(),pct=total?Math.round(done/total*100):0;
+  const se=document.getElementById('progSummary');
+  if(se)se.innerHTML=[
+    {v:done,l:'Maalin La Dhammeeyay',c:'var(--green)'},
+    {v:total-done,l:'Maalin Soo Socda',c:'var(--gold)'},
+    {v:pct+'%',l:'Guud Horumarka',c:'var(--fire)'},
+    {v:Math.ceil((total-done)/5)+' isb',l:'La Filayaa',c:'var(--blue)'},
+  ].map(x=>`<div class="prog-box"><div class="val" style="color:${x.c};">${x.v}</div><div class="lbl">${x.l}</div></div>`).join('');
+
+  const bar=document.getElementById('bigBar');
+  if(bar)bar.style.width=pct+'%';
+
+  const phases=[
+    {l:'Marxaladda 1 (1–30)',s:1,e:30},
+    {l:'Marxaladda 2 (31–60)',s:31,e:60},
+    {l:'Marxaladda 3 (61–90)',s:61,e:90},
+    {l:'Marxaladda 4 (91–120)',s:91,e:120},
+    {l:'Marxaladda 5 (121–150)',s:121,e:150},
+  ];
+  const pp=document.getElementById('phaseProgress');
+  if(pp)pp.innerHTML=phases.map(ph=>{
+    let pd=0,pt=0;
+    for(let d=ph.s;d<=ph.e;d++){if((d-1)%7<5){pt++;if(dayDone['d'+d])pd++;}}
+    const p=pt?Math.round(pd/pt*100):0;
+    const col=p===100?'var(--green)':p>50?'var(--gold)':'var(--fire)';
+    return`<div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;"><span>${ph.l}</span><span style="color:${col};font-weight:700;">${pd}/${pt} (${p}%)</span></div><div style="background:var(--dark4);border-radius:3px;height:7px;overflow:hidden;"><div style="height:100%;width:${p}%;background:${col};border-radius:3px;transition:width .5s;"></div></div></div>`;
   }).join('');
-}
 
-function renderDays() {
-  const container = document.getElementById('daysContainer');
-  container.innerHTML = '';
-
-  weeks.forEach(week => {
-    const weekDiv = document.createElement('div');
-    weekDiv.className = 'week-section';
-    weekDiv.dataset.week = week.week;
-
-    weekDiv.innerHTML = `
-      <div class="week-header">
-        <div class="week-num">W${week.week}</div>
-        <div class="week-info">
-          <div class="week-name">${week.name}</div>
-          <div class="week-desc">${week.desc}</div>
-        </div>
-        <div class="week-intensity">${getIntensityDots(week.intensity)}</div>
-      </div>
-      <div class="days-grid" id="week-grid-${week.week}"></div>
-    `;
-
-    container.appendChild(weekDiv);
-
-    const grid = weekDiv.querySelector(`#week-grid-${week.week}`);
-
-    week.days.forEach(day => {
-      const card = document.createElement('div');
-      card.className = 'day-card' + (day.isRest ? ' rest-day' : '') + (completed.includes(day.day) ? ' completed' : '');
-      card.id = 'day-' + day.day;
-
-      if (day.isRest) {
-        card.innerHTML = `
-          <div class="day-header">
-            <div class="day-number">${day.day}</div>
-            <div class="day-header-info">
-              <div class="day-name">${day.name}</div>
-              <div class="day-focus">${day.focus}</div>
-              <div class="day-meta">${getTagHTML(day.type)}</div>
-            </div>
-          </div>
-          <div class="rest-card-body">
-            <div class="rest-icon">😴</div>
-            <div class="rest-title">MAALIN NASASHO</div>
-            <div class="rest-desc">Murqaha waxay kuu baahan yihiin in ay dib isu dhisaan. Nasashada ayaa ka muhiimsan jimicsiga maalinaha nasashada!</div>
-            <div class="rest-tips">
-              ${day.restTips.map(t => `<span class="rest-tip">✓ ${t}</span>`).join('')}
-            </div>
-          </div>
-          <div class="day-duration"><span class="duration-icon">⏱</span>${day.duration}</div>
-        `;
-      } else {
-        const exHTML = day.exercises.map(ex => `
-          <li class="exercise-item">
-            <div class="ex-icon">${ex.icon}</div>
-            <div class="ex-details">
-              <div class="ex-name">${ex.name}</div>
-              <div class="ex-params">${ex.params}</div>
-              <div class="ex-muscle">🎯 ${ex.muscle}</div>
-              <div class="ex-how">📋 ${ex.how}</div>
-              <a href="${ex.link}" target="_blank" class="ex-link">▶ MUUQAAL FIIRI</a>
-            </div>
-          </li>
-        `).join('');
-
-        const isCompleted = completed.includes(day.day);
-        card.innerHTML = `
-          <div class="day-header">
-            <div class="day-number">${day.day}</div>
-            <div class="day-header-info">
-              <div class="day-name">${day.name}</div>
-              <div class="day-focus">${day.focus}</div>
-              <div class="day-meta">${getTagHTML(day.type)}</div>
-            </div>
-            <button class="collapse-btn open" onclick="toggleCollapse(this, 'body-${day.day}')">▼</button>
-          </div>
-          <div class="day-body collapsible open" id="body-${day.day}">
-            <ul class="exercises-list">${exHTML}</ul>
-            <button class="complete-btn ${isCompleted ? 'done' : ''}" onclick="toggleComplete(${day.day}, this)">
-              ${isCompleted ? '✓ LA DHAMMEEYAY!' : '○ DHAMMAAD KU CALAAMADEE'}
-            </button>
-          </div>
-          <div class="day-duration"><span class="duration-icon">⏱</span>${day.duration}</div>
-        `;
-      }
-
-      grid.appendChild(card);
-    });
-  });
-}
-
-function toggleCollapse(btn, bodyId) {
-  const body = document.getElementById(bodyId);
-  if (body.classList.contains('open')) {
-    body.classList.remove('open');
-    btn.classList.remove('open');
-  } else {
-    body.classList.add('open');
-    btn.classList.add('open');
+  const wg=document.getElementById('weekGrid');
+  if(wg){
+    let h='';
+    for(let w=1;w<=21;w++){
+      let wd=0,wt=0;
+      for(let d=0;d<7;d++){const gd=(w-1)*7+d+1;if(d<5){wt++;if(dayDone['d'+gd])wd++;}}
+      const wp=wt?Math.round(wd/wt*100):0;
+      const col=wp===100?'var(--green)':wp>0?'var(--gold)':'var(--border)';
+      h+=`<div style="background:var(--dark3);border:1px solid ${col};border-radius:6px;padding:9px;text-align:center;"><div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:${col};">W${w}</div><div style="font-size:10px;color:var(--text2);">${wd}/${wt}</div><div style="background:var(--dark4);border-radius:3px;height:4px;margin-top:5px;overflow:hidden;"><div style="height:100%;width:${wp}%;background:${col};transition:width .4s;"></div></div></div>`;
+    }
+    wg.innerHTML=h;
   }
 }
 
-function filterWeek(week, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+// DIET
+function buildDiet(){
+  document.getElementById('dietGrid').innerHTML=[
+    {time:'06:00 AM — SUBAX',meal:'Bifuuro Protein',foods:[{f:'Ukunta (safar leh)',a:'4'},{f:'Oats',a:'80g'},{f:'Banana',a:'1'},{f:'Protein Shake',a:'1 scoop'},{f:'Black Coffee'}],p:'45g',c:'65g',f:'12g',k:'540'},
+    {time:'10:00 AM — SNACK',meal:'Xagal Subax',foods:[{f:'Greek Yogurt',a:'200g'},{f:'Almonds',a:'25g'},{f:'Apple',a:'1'}],p:'22g',c:'30g',f:'9g',k:'285'},
+    {time:'01:00 PM — QADO',meal:'Qado Weyn',foods:[{f:'Digaagga shiilan',a:'200g'},{f:'Bariis / Rice',a:'150g'},{f:'Khudrad',a:'150g'},{f:'Xawaash yar'}],p:'50g',c:'55g',f:'8g',k:'490'},
+    {time:'PRE-WORKOUT (30 min ka hor)',meal:'Tamarta Jimicsi',foods:[{f:'Banana',a:'1'},{f:'Oats',a:'40g'},{f:'Biyo',a:'500ml'}],p:'8g',c:'45g',f:'3g',k:'240'},
+    {time:'POST-WORKOUT',meal:'Dib u Dhis',foods:[{f:'Protein Shake',a:'2 scoop'},{f:'Biyo',a:'300ml'},{f:'Banana',a:'1'}],p:'48g',c:'30g',f:'3g',k:'340'},
+    {time:'07:00 PM — CASHO',meal:'Casho Fudud',foods:[{f:'Kalluun (tuna/salmon)',a:'200g'},{f:'Baradhade',a:'100g'},{f:'Salad khudrad',a:'laftiisa'}],p:'45g',c:'25g',f:'12g',k:'385'},
+  ].map(m=>`<div class="diet-card"><div class="diet-time">${m.time}</div><div class="diet-meal">${m.meal}</div><ul class="diet-list">${m.foods.map(f=>`<li>${f.f}${f.a?` <span>${f.a}</span>`:''}</li>`).join('')}</ul><div class="macro-row"><span class="mac p">P:${m.p}</span><span class="mac c">C:${m.c}</span><span class="mac f">F:${m.f}</span><span class="mac k">🔥${m.k}kcal</span></div></div>`).join('');
 
-  document.querySelectorAll('.week-section').forEach(ws => {
-    if (week === 'all' || parseInt(ws.dataset.week) === week) {
-      ws.style.display = '';
-    } else {
-      ws.style.display = 'none';
-    }
-  });
+  document.getElementById('avoidGrid').innerHTML=[
+    {i:'🍟',t:'Fast Food',d:'McDonalds, KFC — dufan iyo sodium badan'},
+    {i:'🧃',t:'Cabitaanka Sonkor',d:'Juice, soda — kaloorada banaan'},
+    {i:'🍞',t:'Kibista Cad',d:'White bread — carbs degdeg ah'},
+    {i:'🧁',t:'Macmacaan',d:'Cake, ice cream — sonkor + dufan'},
+    {i:'🍺',t:'Khamri',d:'Beer — dufanka si weyn u koriya'},
+    {i:'🛢️',t:'Fried Foods',d:'Dufanka shidan — trans fat xun'},
+  ].map(x=>`<div class="tip-card"><div class="tip-icon">${x.i}</div><div class="tip-title">${x.t}</div><div class="tip-text">${x.d}</div></div>`).join('');
+
+  document.getElementById('waterGrid').innerHTML=[
+    {i:'💧',t:'Biyo 3–4L',d:'Gym-ka gudahood 1L extra. Dheqanku dufanka gubashadda kor u qaada'},
+    {i:'😴',t:'Hurdo 8+ saacadood',d:'Murqadu hurdada gudahood ayay kordhaan — kuma korayso gym-ka'},
+    {i:'☕',t:'Caffeine',d:'Subax qaxwo black — dufanka gubashada kor u qaad 15–20%'},
+    {i:'⏰',t:'Wakhtiga Cuntada',d:'2 saacadood ka hor hurdada cunto ha cunnin'},
+  ].map(x=>`<div class="tip-card"><div class="tip-icon">${x.i}</div><div class="tip-title">${x.t}</div><div class="tip-text">${x.d}</div></div>`).join('');
 }
 
-// ============================
+// TIPS
+function buildTips(){
+  document.getElementById('tipsGrid').innerHTML=[
+    {i:'⚖️',t:'Progressive Overload',d:'Kull isbuuc 2.5kg ku dar ama reps ku dar. Tani waa qalab #1 ee murqada dhisidda.'},
+    {i:'🍗',t:'Protein Maalin kasta',d:'1.6–2.2g/kg. 80kg = 130–180g protein. Ukunta, digaagga, kalluunka, shake.'},
+    {i:'💤',t:'Hurdo 8+ Saacadood',d:'Murqadu hurdada gudahood ayay dhisaan. Nasasho la\'aani waa dhaawac.'},
+    {i:'📱',t:'Qoro Maalin kasta',d:'Culeyska, reps, sida aad dareentay. Tracker-ka isticmaal maalin kasta.'},
+    {i:'🔥',t:'Sabti+Axad Fasax',d:'Jirku markaas ayuu dhisaa. Nasasho la\'aani = injury + performance hoos.'},
+    {i:'🧘',t:'Warm-up + Cool-down',d:'10 min warm-up + 10 min stretch. Injury ka celisa, performance kor.'},
+    {i:'🫀',t:'Form First',d:'Form-ka hore u dhis. Form xun + culus badan = injury. Fudud bilaaw.'},
+    {i:'📊',t:'Sawir ka qaad',d:'Maalin 1,30,60,90,120,150 sawir ka qaad. Isbadalka waa motivation.'},
+    {i:'🧪',t:'Supplements',d:'Protein Whey + Creatine 5g/maalin. Ikhtiyaar laakiin waa caawi.'},
+    {i:'💧',t:'Hydration',d:'3–4L biyo maalin kasta. Gym gudahood 1L. Electrolytes ku dar.'},
+    {i:'🎯',t:'Target haye',d:'Maalmaha adag xusuusnow sababta aad bilaabatay. Sawirka target-kaaga geli.'},
+    {i:'⏰',t:'Waqtiga Gym',d:'2 saacadood maalin kasta waqti isku dhig. Caadada dhis — mar haddaad caado galeyso waa fududaataa.'},
+  ].map(x=>`<div class="tip-card"><div class="tip-icon">${x.i}</div><div class="tip-title">${x.t}</div><div class="tip-text">${x.d}</div></div>`).join('');
+
+  document.getElementById('routineAcc').innerHTML=`<div class="acc">
+    <div class="acc-h" onclick="togAcc(this)"><span class="title">⏰ Jadwalka Maalinlaha — Nidaam Buuxa</span><span class="arrow">▼</span></div>
+    <div class="acc-body"><div style="line-height:2.2;font-size:13px;color:var(--text2);">
+      ⏰ <b style="color:var(--text)">5:45 AM</b> — Tooso, 500ml biyo<br>
+      ⏰ <b style="color:var(--text)">6:00 AM</b> — Breakfast (Protein + Carbs)<br>
+      ⏰ <b style="color:var(--text)">7:00 AM</b> — Gym (warm-up 10 min)<br>
+      ⏰ <b style="color:var(--text)">7:10–9:10 AM</b> — Jimicsiga + Cardio (2 saacadood)<br>
+      ⏰ <b style="color:var(--text)">9:10 AM</b> — Cool-down + stretch 10 min<br>
+      ⏰ <b style="color:var(--text)">9:30 AM</b> — Post-workout shake<br>
+      ⏰ <b style="color:var(--text)">10:00 AM</b> — Snack<br>
+      ⏰ <b style="color:var(--text)">1:00 PM</b> — Qado weyn<br>
+      ⏰ <b style="color:var(--text)">7:00 PM</b> — Casho<br>
+      ⏰ <b style="color:var(--text)">10:00 PM</b> — Hurdada<br>
+    </div></div>
+  </div>`;
+
+  document.getElementById('overloadAcc').innerHTML=`<div class="acc">
+    <div class="acc-h" onclick="togAcc(this)"><span class="title">📈 Progressive Overload — 4 Hab</span><span class="arrow">▼</span></div>
+    <div class="acc-body"><div style="line-height:2.2;font-size:13px;color:var(--text2);">
+      ✅ <b style="color:var(--green)">Hab 1:</b> 2.5kg ku dar markii reps-ta fudud u dhamayso<br>
+      ✅ <b style="color:var(--green)">Hab 2:</b> Rep 1 ku dar (3×10 → 3×11) culeyskii hore<br>
+      ✅ <b style="color:var(--green)">Hab 3:</b> Set ku dar (3×10 → 4×10)<br>
+      ✅ <b style="color:var(--green)">Hab 4:</b> Rest time hoos (120s → 90s → 60s)<br>
+      ⚠️ <b style="color:var(--fire)">Digniin:</b> Form-ka weligaa ha burburin culeyska awgeed!
+    </div></div>
+  </div>`;
+}
+
+function togAcc(h){h.classList.toggle('open');h.nextElementSibling.classList.toggle('open');}
+
+function showPage(name,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(el)el.classList.add('active');
+  if(name==='progress')refreshProgress();
+  window.scrollTo(0,0);
+}
+
 // INIT
-// ============================
-renderDays();
-renderDots();
+buildTracker();
+buildDiet();
+buildTips();
+refreshProgress();
 </script>
 </body>
 </html>

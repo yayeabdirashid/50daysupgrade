@@ -672,5 +672,298 @@ buildDiet();
 buildTips();
 refreshProgress();
 </script>
+
+<!-- ENHANCED FEATURES -->
+<style>
+.floating-tools{
+position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;
+}
+.float-btn{
+background:#FF4500;color:white;border:none;padding:12px 14px;border-radius:50px;
+cursor:pointer;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.3);
+}
+.modal{
+display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:99999;
+align-items:center;justify-content:center;padding:20px;
+}
+.modal-box{
+background:#161616;border:1px solid #333;border-radius:12px;padding:20px;
+max-width:420px;width:100%;color:white;
+}
+.modal-box input{
+width:100%;padding:10px;margin:8px 0;border-radius:6px;border:1px solid #333;
+background:#0f0f0f;color:white;
+}
+.badge-box{
+display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:15px;
+}
+.badge{
+background:#1f1f1f;border:1px solid #333;padding:12px;border-radius:8px;text-align:center;
+}
+.timer-box{
+font-size:42px;font-weight:900;text-align:center;margin:15px 0;color:#FFB800;
+}
+.theme-light{
+--dark:#F5F5F5!important;
+--dark2:#FFFFFF!important;
+--dark3:#EEEEEE!important;
+--card-bg:#FFFFFF!important;
+--text:#111!important;
+--text2:#555!important;
+--border:#DDD!important;
+background:#F5F5F5!important;
+color:#111!important;
+}
+</style>
+
+<div class="floating-tools">
+<button class="float-btn" onclick="toggleTheme()">🌙/☀️</button>
+<button class="float-btn" onclick="openBMI()">⚖️ BMI</button>
+<button class="float-btn" onclick="openTimer()">⏱️ Timer</button>
+</div>
+
+<div class="modal" id="bmiModal">
+<div class="modal-box">
+<h2 style="margin-bottom:10px;">BMI Calculator</h2>
+<input type="number" id="kg" placeholder="Miisaanka KG">
+<input type="number" id="cm" placeholder="Dhererka CM">
+<button class="float-btn" onclick="calcBMI()" style="width:100%;margin-top:10px;">Xisaabi</button>
+<div id="bmiResult" style="margin-top:15px;font-size:18px;font-weight:700;"></div>
+<button class="float-btn" onclick="closeBMI()" style="width:100%;margin-top:10px;background:#333;">Xir</button>
+</div>
+</div>
+
+<div class="modal" id="timerModal">
+<div class="modal-box">
+<h2>Workout Timer</h2>
+<div class="timer-box" id="timerText">60</div>
+<button class="float-btn" onclick="startTimer()" style="width:100%;">Bilow 60s</button>
+<button class="float-btn" onclick="closeTimer()" style="width:100%;margin-top:10px;background:#333;">Xir</button>
+</div>
+</div>
+
+<script>
+function toggleTheme(){
+document.body.classList.toggle('theme-light');
+localStorage.setItem('g150_theme',
+document.body.classList.contains('theme-light')?'light':'dark');
+}
+
+(function(){
+if(localStorage.getItem('g150_theme')==='light'){
+document.body.classList.add('theme-light');
+}
+})();
+
+function openBMI(){document.getElementById('bmiModal').style.display='flex';}
+function closeBMI(){document.getElementById('bmiModal').style.display='none';}
+
+function calcBMI(){
+const kg=parseFloat(document.getElementById('kg').value);
+const cm=parseFloat(document.getElementById('cm').value);
+if(!kg||!cm)return;
+const bmi=(kg/((cm/100)*(cm/100))).toFixed(1);
+let txt='';
+if(bmi<18.5)txt='Caato';
+else if(bmi<25)txt='Healthy';
+else if(bmi<30)txt='Overweight';
+else txt='Cayil';
+document.getElementById('bmiResult').innerHTML='BMI: '+bmi+' — '+txt;
+}
+
+function openTimer(){document.getElementById('timerModal').style.display='flex';}
+function closeTimer(){document.getElementById('timerModal').style.display='none';}
+
+let timerInt=null;
+function startTimer(){
+let sec=60;
+const el=document.getElementById('timerText');
+el.textContent=sec;
+clearInterval(timerInt);
+timerInt=setInterval(()=>{
+sec--;
+el.textContent=sec;
+if(sec<=0){
+clearInterval(timerInt);
+el.textContent='DONE 🔥';
+}
+},1000);
+}
+
+// Achievement system
+function checkAchievements(){
+const done=Object.keys(dayDone).filter(k=>dayDone[k]).length;
+if(done>=5&&!localStorage.getItem('ach5')){
+alert('🏆 Achievement: 5 Maalmood completed!');
+localStorage.setItem('ach5','1');
+}
+if(done>=30&&!localStorage.getItem('ach30')){
+alert('🔥 Achievement: 30 Maalmood completed!');
+localStorage.setItem('ach30','1');
+}
+}
+
+const oldTog=togDay;
+togDay=function(gd){
+oldTog(gd);
+checkAchievements();
+}
+</script>
+
+
+<style>
+.personal-panel{
+background:var(--card-bg);
+border:1px solid var(--border);
+border-radius:12px;
+padding:20px;
+margin-bottom:25px;
+}
+.personal-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+.personal-card{
+background:var(--dark3);
+border-radius:10px;
+padding:15px;
+}
+.personal-card input{
+width:100%;
+margin-top:8px;
+padding:10px;
+border-radius:6px;
+border:1px solid var(--border);
+background:var(--dark2);
+color:var(--text);
+}
+.save-btn{
+margin-top:10px;
+padding:10px 14px;
+border:none;
+border-radius:6px;
+background:var(--fire);
+color:white;
+font-weight:700;
+cursor:pointer;
+width:100%;
+}
+.stat-big{
+font-size:34px;
+font-weight:900;
+color:var(--gold);
+}
+.motivation-box{
+margin-top:15px;
+padding:14px;
+border-radius:10px;
+background:rgba(255,69,0,.08);
+border:1px solid rgba(255,69,0,.2);
+font-weight:700;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+
+const progressSection=document.querySelector('#page-progress .section');
+
+const panel=document.createElement('div');
+panel.className='personal-panel';
+
+panel.innerHTML=`
+<div class="section-title">MY <span>PERSONAL TRACKER</span></div>
+<p class="section-sub">Gym assistant-kaaga gaarka ah</p>
+
+<div class="personal-grid">
+
+<div class="personal-card">
+<h3>⚖️ Miisaanka</h3>
+<div class="stat-big" id="weightView">77kg</div>
+<input type="number" id="weightInput" placeholder="Miisaanka cusub">
+<button class="save-btn" onclick="saveWeight()">Save Weight</button>
+</div>
+
+<div class="personal-card">
+<h3>💧 Biyaha</h3>
+<div class="stat-big" id="waterView">0L</div>
+<input type="number" id="waterInput" placeholder="Liters maanta">
+<button class="save-btn" onclick="saveWater()">Save Water</button>
+</div>
+
+<div class="personal-card">
+<h3>😴 Hurdada</h3>
+<div class="stat-big" id="sleepView">0h</div>
+<input type="number" id="sleepInput" placeholder="Saacadaha hurdada">
+<button class="save-btn" onclick="saveSleep()">Save Sleep</button>
+</div>
+
+<div class="personal-card">
+<h3>🔥 Streak</h3>
+<div class="stat-big" id="streakView">0</div>
+<div style="color:var(--text2);font-size:12px;">maalmood xiriir ah</div>
+<button class="save-btn" onclick="updateStreak()">Update</button>
+</div>
+
+</div>
+
+<div class="motivation-box" id="motivationBox">
+💪 “Consistency beats motivation.”
+</div>
+`;
+
+progressSection.prepend(panel);
+
+const quotes=[
+"💪 Consistency beats motivation.",
+"🔥 Pain today. Power tomorrow.",
+"🏆 150 maalmood kadib qof cusub ayaad noqonaysaa.",
+"⚡ Discipline > excuses.",
+"🧠 Maalmaha adag waa maalmaha ku beddelaya.",
+"📈 Hal maalin ha seegin."
+];
+
+function randQuote(){
+document.getElementById('motivationBox').innerHTML=quotes[Math.floor(Math.random()*quotes.length)];
+}
+setInterval(randQuote,7000);
+
+window.saveWeight=function(){
+const v=document.getElementById('weightInput').value;
+if(!v)return;
+localStorage.setItem('my_weight',v);
+document.getElementById('weightView').innerHTML=v+'kg';
+}
+
+window.saveWater=function(){
+const v=document.getElementById('waterInput').value;
+if(!v)return;
+localStorage.setItem('my_water',v);
+document.getElementById('waterView').innerHTML=v+'L';
+}
+
+window.saveSleep=function(){
+const v=document.getElementById('sleepInput').value;
+if(!v)return;
+localStorage.setItem('my_sleep',v);
+document.getElementById('sleepView').innerHTML=v+'h';
+}
+
+window.updateStreak=function(){
+let s=parseInt(localStorage.getItem('my_streak')||0);
+s++;
+localStorage.setItem('my_streak',s);
+document.getElementById('streakView').innerHTML=s;
+}
+
+document.getElementById('weightView').innerHTML=(localStorage.getItem('my_weight')||77)+'kg';
+document.getElementById('waterView').innerHTML=(localStorage.getItem('my_water')||0)+'L';
+document.getElementById('sleepView').innerHTML=(localStorage.getItem('my_sleep')||0)+'h';
+document.getElementById('streakView').innerHTML=(localStorage.getItem('my_streak')||0);
+
+});
+</script>
+
 </body>
 </html>
